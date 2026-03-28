@@ -1,1 +1,151 @@
-<!-- deploying -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta name="last-updated" content="2026-03-29T03:03:54.010660+09:00">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="포켓몬 굿즈 시세 추적 - 카드, 레고 최신 시세와 이벤트 정보">
+    <title>포켓몬 굿즈 시세</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-inner">
+            <h1 class="app-title">
+                <span class="title-icon">&#9733;</span>
+                포켓몬 굿즈 시세
+            </h1>
+            <p class="last-updated" id="lastUpdated">데이터 로딩 중...</p>
+        </div>
+    </header>
+
+    <nav class="tab-nav" role="tablist">
+        <button class="tab-btn active" data-tab="cards" role="tab" aria-selected="true">
+            카드 시세
+        </button>
+        <button class="tab-btn" data-tab="events" role="tab" aria-selected="false">
+            이벤트
+        </button>
+        <button class="tab-btn" data-tab="lego" role="tab" aria-selected="false">
+            레고
+        </button>
+        <button class="tab-btn" data-tab="info" role="tab" aria-selected="false">
+            정보
+        </button>
+    </nav>
+
+    <!-- 카드 시세 탭 -->
+    <section id="tab-cards" class="tab-content active" role="tabpanel">
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label class="filter-label">에디션</label>
+                <div class="btn-group">
+                    <button class="filter-btn active" data-filter="edition" data-value="all">전체</button>
+                    <button class="filter-btn" data-filter="edition" data-value="kr">
+                        <span class="badge badge-kr">KR</span> 한국판
+                    </button>
+                    <button class="filter-btn" data-filter="edition" data-value="en">
+                        <span class="badge badge-en">EN</span> 영어판
+                    </button>
+                </div>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">카테고리</label>
+                <select class="filter-select" id="categoryFilter">
+                    <option value="all">전체</option>
+                    <option value="collab">콜라보</option>
+                    <option value="expansion">확장팩</option>
+                </select>
+            </div>
+        </div>
+        <div class="card-grid" id="cardGrid">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>시세 데이터 로딩 중...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 이벤트 탭 -->
+    <section id="tab-events" class="tab-content" role="tabpanel">
+        <div class="filter-bar">
+            <div class="filter-group">
+                <div class="btn-group">
+                    <button class="filter-btn active" data-filter="event_status" data-value="all">전체</button>
+                    <button class="filter-btn" data-filter="event_status" data-value="ongoing">
+                        <span class="status-dot status-ongoing"></span> 진행중
+                    </button>
+                    <button class="filter-btn" data-filter="event_status" data-value="upcoming">
+                        <span class="status-dot status-upcoming"></span> 예정
+                    </button>
+                    <button class="filter-btn" data-filter="event_status" data-value="ended">
+                        <span class="status-dot status-ended"></span> 종료
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="event-list" id="eventList">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>이벤트 데이터 로딩 중...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 레고 탭 -->
+    <section id="tab-lego" class="tab-content" role="tabpanel">
+        <div class="card-grid" id="legoGrid">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>레고 데이터 로딩 중...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 정보 탭 -->
+    <section id="tab-info" class="tab-content" role="tabpanel">
+        <div class="info-section">
+            <h2>데이터 소스 현황</h2>
+            <div id="sourceStatus" class="source-status-grid">
+                <p>로딩 중...</p>
+            </div>
+
+            <h2>가격 정보 안내</h2>
+            <ul class="info-list">
+                <li><strong>TCGPlayer / PriceCharting</strong>: 미국 시장 시세 (USD, 환율 환산)</li>
+                <li><strong>eBay</strong>: 최근 30일 낙찰가 평균 (실거래가)</li>
+                <li><strong>번개장터 / 당근마켓</strong>: 판매 희망가 (수수료 미포함, 실제 거래가 아님)</li>
+                <li><strong>네이버 카페</strong>: 커뮤니티 시세글 기반 참고가</li>
+            </ul>
+
+            <h2>번개장터 가격 주의사항</h2>
+            <p class="warning-text">
+                번개장터 가격은 판매자가 요구하는 <strong>판매 희망가</strong>이며,
+                실제 거래가와 다를 수 있습니다. 수수료(6%+)는 별도입니다.
+            </p>
+
+            <h2>업데이트 주기</h2>
+            <p>매일 자동 수집 (KST 기준 오전 9시, 오후 9시)</p>
+
+            <div id="buildInfo" class="build-info-box"></div>
+        </div>
+    </section>
+
+    <!-- 카드 상세 모달 -->
+    <div id="cardModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+        <div class="modal-backdrop" id="modalBackdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose" aria-label="닫기">&times;</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <footer class="app-footer">
+        <p>비공식 시세 참고용 서비스입니다. 투자 판단에 활용하지 마세요.</p>
+        <p>데이터 출처: TCGPlayer, PriceCharting, eBay, 번개장터, 당근마켓, 네이버 카페, 포켓몬코리아</p>
+    </footer>
+
+    <script src="static/js/app.js"></script>
+</body>
+</html>
