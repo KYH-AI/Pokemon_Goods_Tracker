@@ -23,6 +23,21 @@ HEADERS = {
 }
 
 
+def extract_usd_price(text: str):
+    """USD 가격 추출. 'US $30.00', '$30.00', '30.00' 등 처리."""
+    if not text:
+        return None
+    clean = text.strip().replace(",", "")
+    # USD 가격만 추출 ($기호 앞에 통화코드 없는 것, 또는 US $)
+    match = re.search(r"(?:US\s*)?\$\s*([\d]+\.?\d*)", clean)
+    if match:
+        try:
+            return round(float(match.group(1)), 2)
+        except ValueError:
+            return None
+    return None
+
+
 def scrape_ebay_sold(keyword: str, max_results: int = 10) -> list:
     """eBay 낙찰 완료 리스팅 크롤링."""
     url = "https://www.ebay.com/sch/i.html"
@@ -30,33 +45,60 @@ def scrape_ebay_sold(keyword: str, max_results: int = 10) -> list:
         "_nkw": keyword,
         "LH_Complete": "1",
         "LH_Sold": "1",
-        "_sacat": "0",
+        "_sacat": "183454",  # Trading Cards 카테고리
         "_ipg": "50",
+        "LH_PrefLoc": "1",  # 미국 판매자 우선
     }
     time.sleep(1)
     try:
         resp = requests.get(url, params=params, headers=HEADERS, timeout=15)
+        if resp.status_code == 403:
+            print(f"  [BLOCKED] eBay: HTTP 403 (keyword={keyword!r})")
+            return []
         if resp.status_code != 200:
+            print(f"  [WARN] eBay HTTP {resp.status_code} (keyword={keyword!r})")
             return []
         soup = BeautifulSoup(resp.text, "html.parser")
         items = []
-        for listing in soup.select(".s-item")[:max_results]:
+        for listing in soup.select(".s-item")[:max_results + 5]:
             title_el = listing.select_one(".s-item__title")
-            price_el = listing.select_one(".s-item__price")
-            date_el = listing.select_one(".s-item__endedDate")
-            if not title_el or not price_el:
+            if not title_el:
                 continue
-            price_text = price_el.get_text(strip=True).replace(",", "")
-            price_match = re.search(r"\$?([\d]+\.?\d*)", price_text)
-            if not price_match:
+            title = title_el.get_text(strip=True)
+            # eBay가 삽입하는 placeholder 아이템 스킵
+            if "Shop on eBay" in title or not title:
                 continue
+
+            # 가격 추출: 다중 선택자 fallback
+            price = None
+            for sel in (".s-item__price", ".POSITIVE", "span[class*='price']"):
+                el = listing.select_one(sel)
+                if el:
+                    price = extract_usd_price(el.get_text(strip=True))
+                    if price:
+                        break
+            if not price:
+                continue
+
+            # 날짜: 다중 선택자 fallback
+            sold_date = ""
+            for sel in (".s-item__endedDate", ".s-item__listingDate",
+                        "[class*='ended']", "[class*='sold-date']"):
+                el = listing.select_one(sel)
+                if el:
+                    sold_date = el.get_text(strip=True)
+                    break
+
+            if len(items) >= max_results:
+                break
             items.append({
-                "title": title_el.get_text(strip=True),
-                "sold_price_usd": round(float(price_match.group(1)), 2),
-                "sold_date": date_el.get_text(strip=True) if date_el else "",
+                "title": title,
+                "sold_price_usd": price,
+                "sold_date": sold_date,
             })
         return items
-    except Exception:
+    except Exception as e:
+        print(f"  [ERROR] eBay 파싱 실패: {e}")
         return []
 
 

@@ -1,89 +1,109 @@
 #!/usr/bin/env python3
-"""TCGPlayer에서 영어판 포켓몬 카드 시세 수집."""
+"""pokemontcg.io 공개 API로 영어판 TCGPlayer 시세 수집.
+
+HTML 스크래핑 대신 pokemontcg.io API를 사용:
+- API 키 불필요, 차단 없음, 안정적
+- 응답에서 tcgplayer.prices.{type}.market 추출
+"""
 import json
 import sys
 import time
-import random
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 try:
     import requests
-    from bs4 import BeautifulSoup
 except ImportError:
-    print("필요 패키지: pip install requests beautifulsoup4")
+    print("필요 패키지: pip install requests")
     sys.exit(1)
 
-ROOT = Path(__file__).parent.parent.parent.parent.parent  # 프로젝트 루트
+ROOT = Path(__file__).parent.parent.parent.parent.parent
 KST = timezone(timedelta(hours=9))
 
+API_BASE = "https://api.pokemontcg.io/v2/cards"
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
-    "Accept": "application/json, text/html, */*",
-    "Accept-Language": "en-US,en;q=0.9",
+    "User-Agent": "PokemonGoodsTracker/1.0",
 }
 
+# 가격 타입 우선순위: 카드 등급별로 가장 관련성 높은 타입 순
+PRICE_TYPE_PRIORITY = [
+    "holofoil",
+    "reverseHolofoil",
+    "normal",
+    "1stEditionHolofoil",
+    "1stEditionNormal",
+]
 
-def load_config():
-    watchlist = json.loads((ROOT / "config/watchlist.json").read_text(encoding="utf-8"))
-    sources = json.loads((ROOT / "config/sources.json").read_text(encoding="utf-8"))
-    return watchlist, sources
 
-
-def scrape_card_price(card: dict, sources: dict) -> dict:
-    """단일 카드의 TCGPlayer 시세 수집."""
-    tcgplayer_id = card.get("tcgplayer_id")
-    if not tcgplayer_id:
+def fetch_card_prices(card: dict) -> dict:
+    """pokemontcg.io API로 단일 카드 시세 조회."""
+    pokemontcg_id = card.get("pokemontcg_id")
+    if not pokemontcg_id:
         return {"id": card["id"], "status": "no_id"}
 
-    config = sources["card_sources"]["tcgplayer"]
-    delay = config.get("request_delay_sec", 2)
-    time.sleep(delay + random.uniform(0, 1))
+    time.sleep(0.5)  # API rate limit 준수
 
-    url = f"https://www.tcgplayer.com/product/{tcgplayer_id}"
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=15)
-        if resp.status_code == 403:
-            print(f"  [BLOCKED] TCGPlayer {card['id']}: HTTP 403")
-            return {"id": card["id"], "status": "blocked"}
+        resp = requests.get(f"{API_BASE}/{pokemontcg_id}", headers=HEADERS, timeout=15)
+        if resp.status_code == 404:
+            print(f"  [NOT FOUND] {card['id']}: pokemontcg_id={pokemontcg_id} 없음")
+            return {"id": card["id"], "status": "not_found"}
         if resp.status_code != 200:
-            print(f"  [ERROR] TCGPlayer {card['id']}: HTTP {resp.status_code}")
+            print(f"  [ERROR] {card['id']}: HTTP {resp.status_code}")
             return {"id": card["id"], "status": "error", "http_code": resp.status_code}
 
-        soup = BeautifulSoup(resp.text, "html.parser")
-        price_data = {
+        data = resp.json().get("data", {})
+        result = {
             "id": card["id"],
-            "tcgplayer_id": tcgplayer_id,
+            "pokemontcg_id": pokemontcg_id,
+            "tcgplayer_id": card.get("tcgplayer_id", ""),
             "status": "ok",
         }
 
-        # Market Price 추출 시도 (여러 선택자 시도)
-        market_el = (
-            soup.select_one("[data-testid='market-price']")
-            or soup.select_one(".price-point__data")
-            or soup.select_one(".markt-price")
-        )
-        if market_el:
-            price_text = market_el.get_text(strip=True).replace("$", "").replace(",", "")
-            try:
-                price_data["market_avg_usd"] = float(price_text.split()[0])
-            except (ValueError, IndexError):
-                price_data["status"] = "parse_error"
+        # TCGPlayer 가격 추출
+        tcgplayer = data.get("tcgplayer", {})
+        prices = tcgplayer.get("prices", {})
 
-        # 썸네일 URL
-        img_el = soup.select_one(".product-gallery__image img")
-        if img_el:
-            price_data["thumbnail_url"] = img_el.get("src", "")
+        if prices:
+            # 우선순위 순으로 시장가 추출
+            for price_type in PRICE_TYPE_PRIORITY:
+                if price_type in prices:
+                    market = prices[price_type].get("market")
+                    if market is not None:
+                        result["market_avg_usd"] = round(float(market), 2)
+                        result["price_type"] = price_type
+                        # 추가 정보
+                        low = prices[price_type].get("low")
+                        high = prices[price_type].get("high")
+                        if low is not None:
+                            result["low_usd"] = round(float(low), 2)
+                        if high is not None:
+                            result["high_usd"] = round(float(high), 2)
+                        break
 
-        return price_data
+            # 업데이트 시각
+            updated_at = tcgplayer.get("updatedAt")
+            if updated_at:
+                result["tcgplayer_updated_at"] = updated_at
 
-    except requests.RequestException as e:
-        print(f"  [ERROR] TCGPlayer {card['id']}: {e}")
+        # 카드 이미지
+        images = data.get("images", {})
+        if images.get("small"):
+            result["thumbnail_url"] = images["small"]
+
+        if "market_avg_usd" not in result:
+            print(f"  [WARN] {card['id']}: 가격 데이터 없음 (prices={list(prices.keys())})")
+
+        return result
+
+    except (requests.RequestException, ValueError, KeyError) as e:
+        print(f"  [ERROR] {card['id']}: {e}")
         return {"id": card["id"], "status": "error", "error": str(e)}
 
 
 def main():
-    watchlist, sources = load_config()
+    watchlist = json.loads((ROOT / "config/watchlist.json").read_text(encoding="utf-8"))
+    sources = json.loads((ROOT / "config/sources.json").read_text(encoding="utf-8"))
 
     if not sources["card_sources"]["tcgplayer"].get("enabled", True):
         print("[tcgplayer] 비활성화 상태, 스킵")
@@ -91,26 +111,30 @@ def main():
 
     # en 에디션 카드만 대상
     cards = [c for c in watchlist["cards"] if "en" in c.get("editions", [])]
-    print(f"[tcgplayer] {len(cards)}개 카드 수집 시작")
+    print(f"[tcgplayer/pokemontcg.io] {len(cards)}개 카드 수집 시작")
 
     results = []
     for card in cards:
-        print(f"  → {card['id']}")
-        result = scrape_card_price(card, sources)
+        print(f"  → {card['id']} (pokemontcg_id={card.get('pokemontcg_id', '없음')})")
+        result = fetch_card_prices(card)
         results.append(result)
 
+    warnings = [r for r in results if r.get("status") not in ("ok", "no_id")]
     output = {
         "scraped_at": datetime.now(KST).isoformat(),
         "source": "tcgplayer",
+        "api": "pokemontcg.io",
         "edition": "en",
         "cards": results,
-        "warnings": [r for r in results if r.get("status") not in ("ok", "no_id")],
+        "warnings": warnings,
     }
 
     out_path = ROOT / "data/raw/cards_tcgplayer.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"[tcgplayer] 완료: {len(results)}개 → {out_path}")
+    if warnings:
+        print(f"  경고 {len(warnings)}건: {[w['id'] for w in warnings]}")
 
 
 if __name__ == "__main__":

@@ -9,8 +9,9 @@
       "set_id": "svp",
       "category": "collab",
       "editions": ["en", "kr"],
+      "pokemontcg_id": "svp-85",
       "tcgplayer_id": "578939",
-      "pricecharting_id": "pokemon-sv-promos-pikachu-with-grey-felt-hat",
+      "pricecharting_id": "pokemon-sv-promos/pikachu-with-grey-felt-hat",
       "ebay_search_keywords": ["Pikachu Grey Felt Hat", "Pikachu Van Gogh promo", "SVP 085"],
       "naver_cafe_keywords": ["반고흐 피카츄", "반고흐피카츄", "Van Gogh Pikachu"],
       "domestic_search_keywords": ["반고흐 피카츄", "반고흐피카츄 카드", "피카츄 반고흐"]
@@ -23,8 +24,9 @@
       "set_id": "sv3pt5",
       "category": "expansion",
       "editions": ["en", "kr"],
+      "pokemontcg_id": "sv3pt5-205",
       "tcgplayer_id": "503625",
-      "pricecharting_id": "pokemon-151-charizard-ex",
+      "pricecharting_id": "pokemon-151/charizard-ex",
       "ebay_search_keywords": ["Charizard ex 151 SAR", "Charizard ex sv3pt5 205"],
       "naver_cafe_keywords": ["리자몽 ex SAR", "리자몽ex SAR 151"],
       "domestic_search_keywords": ["리자몽 ex SAR", "리자몽ex SAR", "리자몽 151"]
@@ -37,8 +39,9 @@
       "set_id": "sv4pt5",
       "category": "expansion",
       "editions": ["en"],
+      "pokemontcg_id": "sv4pt5-221",
       "tcgplayer_id": "554221",
-      "pricecharting_id": "pokemon-paldean-fates-pikachu-ex",
+      "pricecharting_id": "pokemon-paldean-fates/pikachu-ex",
       "ebay_search_keywords": ["Pikachu ex SAR Paldean Fates", "Pikachu ex sv4pt5"],
       "naver_cafe_keywords": [],
       "domestic_search_keywords": []

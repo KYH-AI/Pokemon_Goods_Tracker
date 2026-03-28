@@ -19,14 +19,16 @@ ROOT = Path(__file__).parent.parent.parent.parent.parent
 KST = timezone(timedelta(hours=9))
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                  "Chrome/124.0.0.0 Safari/537.36",
     "Accept-Language": "en-US,en;q=0.9",
-    "Accept": "text/html,application/xhtml+xml,*/*",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
 }
 
 
 def load_exchange_rate() -> float:
-    """환율 캐시에서 USD→KRW 환율 로드."""
     rate_path = ROOT / "config/exchange_rate.json"
     if rate_path.exists():
         data = json.loads(rate_path.read_text(encoding="utf-8"))
@@ -37,11 +39,11 @@ def load_exchange_rate() -> float:
 def parse_price_usd(text: str):
     if not text:
         return None
-    clean = text.strip().replace("$", "").replace(",", "")
-    match = re.search(r"[\d]+\.?\d*", clean)
+    clean = text.strip().replace(",", "")
+    match = re.search(r"\$\s*([\d]+\.?\d*)", clean)
     if match:
         try:
-            return round(float(match.group()), 2)
+            return round(float(match.group(1)), 2)
         except ValueError:
             return None
     return None
@@ -59,12 +61,74 @@ def parse_percent(text: str):
     return None
 
 
+def extract_prices_from_soup(soup: BeautifulSoup) -> dict:
+    """다중 전략으로 가격 추출 — BrickEconomy HTML 구조 변경에 대응."""
+    result = {}
+
+    # 전략 1: 공식 가격 통계 테이블 (ASP.NET 구조)
+    for table in soup.select("table"):
+        for row in table.select("tr"):
+            cells = row.select("td, th")
+            if len(cells) < 2:
+                continue
+            label = cells[0].get_text(strip=True).lower()
+            value_text = cells[1].get_text(strip=True)
+            price = parse_price_usd(value_text)
+            if not price:
+                continue
+            if any(k in label for k in ("new", "retail", "msrp")):
+                result.setdefault("new_usd", price)
+            elif any(k in label for k in ("used", "secondary", "market")):
+                result.setdefault("used_usd", price)
+
+    # 전략 2: CSS 클래스 기반 (구버전/신버전 혼합)
+    selector_map = {
+        "new_usd": [
+            ".value-new", ".price-new", "[class*='value-new']",
+            "[class*='price-new']", "#value-new",
+        ],
+        "used_usd": [
+            ".value-used", ".price-used", "[class*='value-used']",
+            "[class*='price-used']", "#value-used",
+        ],
+    }
+    for field, selectors in selector_map.items():
+        if field in result:
+            continue
+        for sel in selectors:
+            el = soup.select_one(sel)
+            if el:
+                price = parse_price_usd(el.get_text())
+                if price:
+                    result[field] = price
+                    break
+
+    # 전략 3: 페이지 전체에서 "New:" / "Used:" 패턴 텍스트 파싱
+    if "new_usd" not in result or "used_usd" not in result:
+        page_text = soup.get_text(" ", strip=True)
+        for pattern, field in [
+            (r"New[:\s]+\$([\d,]+\.?\d*)", "new_usd"),
+            (r"Used[:\s]+\$([\d,]+\.?\d*)", "used_usd"),
+            (r"Retail[:\s]+\$([\d,]+\.?\d*)", "new_usd"),
+        ]:
+            if field in result:
+                continue
+            m = re.search(pattern, page_text, re.IGNORECASE)
+            if m:
+                try:
+                    result[field] = round(float(m.group(1).replace(",", "")), 2)
+                except ValueError:
+                    pass
+
+    return result
+
+
 def scrape_brickeconomy(lego_item: dict, rate: float) -> dict:
     url = lego_item.get("brickeconomy_url", "")
     if not url:
         return {"id": lego_item["id"], "status": "no_url"}
 
-    time.sleep(3 + random.uniform(0, 1))
+    time.sleep(3 + random.uniform(0, 2))
 
     try:
         resp = requests.get(url, headers=HEADERS, timeout=20)
@@ -81,46 +145,59 @@ def scrape_brickeconomy(lego_item: dict, rate: float) -> dict:
             "status": "ok",
         }
 
-        # 현재가(Used/New) 파싱
-        price_rows = soup.select(".table-price tr, .price-table tr")
-        for row in price_rows:
-            cells = row.select("td")
-            if len(cells) < 2:
-                continue
-            label = cells[0].get_text(strip=True).lower()
-            price_text = cells[1].get_text(strip=True)
-            price = parse_price_usd(price_text)
-            if not price:
-                continue
-            if "new" in label:
-                result["new_usd"] = price
-                result["new_krw"] = int(price * rate)
-            elif "used" in label:
-                result["used_usd"] = price
-                result["used_krw"] = int(price * rate)
+        # 가격 추출 (다중 전략)
+        prices = extract_prices_from_soup(soup)
+        if "new_usd" in prices:
+            result["new_usd"] = prices["new_usd"]
+            result["new_krw"] = int(prices["new_usd"] * rate)
+        if "used_usd" in prices:
+            result["used_usd"] = prices["used_usd"]
+            result["used_krw"] = int(prices["used_usd"] * rate)
 
-        # 프리미엄% (소매가 대비 상승률)
-        premium_el = soup.select_one("[class*='premium'], [class*='price-premium']")
-        if premium_el:
-            pct = parse_percent(premium_el.get_text())
-            if pct is not None:
-                result["premium_pct"] = pct
+        # 프리미엄% — 다중 선택자
+        premium_selectors = [
+            "[class*='premium']", "[class*='price-premium']",
+            "[class*='growth']", "[class*='appreciation']",
+        ]
+        for sel in premium_selectors:
+            el = soup.select_one(sel)
+            if el:
+                pct = parse_percent(el.get_text())
+                if pct is not None:
+                    result["premium_pct"] = pct
+                    break
 
-        # 재고 상태 (단종 여부)
-        availability_el = soup.select_one("[class*='availability'], [class*='retired']")
-        if availability_el:
-            avail_text = availability_el.get_text(strip=True).lower()
-            if "retired" in avail_text or "단종" in avail_text:
-                result["retired"] = True
-            else:
-                result["retired"] = False
+        # 재고/단종 상태 — 다중 선택자
+        retired_selectors = [
+            "[class*='availability']", "[class*='retired']",
+            "[class*='status']", "[class*='discontinued']",
+        ]
+        for sel in retired_selectors:
+            el = soup.select_one(sel)
+            if el:
+                avail_text = el.get_text(strip=True).lower()
+                if "retired" in avail_text or "discontinued" in avail_text:
+                    result["retired"] = True
+                elif avail_text:
+                    result["retired"] = False
+                break
 
-        # 썸네일
-        img = soup.select_one(".set-image img, .product-image img")
-        if img:
-            src = img.get("src", "") or img.get("data-src", "")
-            if src:
-                result["thumbnail_url"] = src
+        # 썸네일 — 다중 선택자
+        img_selectors = [
+            ".set-image img", ".product-image img",
+            "[class*='set-image'] img", "img[alt*='Pokemon']",
+            "img[alt*='LEGO']",
+        ]
+        for sel in img_selectors:
+            img = soup.select_one(sel)
+            if img:
+                src = img.get("src", "") or img.get("data-src", "")
+                if src:
+                    result["thumbnail_url"] = src
+                    break
+
+        if "new_usd" not in result and "used_usd" not in result:
+            print(f"  [WARN] {lego_item['id']}: 가격 추출 실패 (선택자 불일치 가능성)")
 
         return result
 
