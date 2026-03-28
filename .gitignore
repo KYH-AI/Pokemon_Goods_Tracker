@@ -20,3 +20,6 @@ site/build/
 # OS
 .DS_Store
 Thumbs.db
+
+# API 가이드 및 내부 문서
+docs/
