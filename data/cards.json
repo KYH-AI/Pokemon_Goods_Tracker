@@ -1,11 +1,8 @@
 {
-  "updated_at": "2026-03-29T04:15:31.561453+09:00",
+  "updated_at": "2026-03-29T04:32:33.379882+09:00",
   "source_status": {
     "tcgplayer": "ok",
     "pricecharting": "ok",
-    "pricecharting_sv-pikachu-vangogh": "http_404",
-    "pricecharting_sv3pt5-charizard-ex-sar": "http_404",
-    "pricecharting_sv4pt5-pikachu-ex-sar": "http_404",
     "ebay": "ok",
     "naver_cafe": "missing",
     "bunjang": "ok",
@@ -27,8 +24,9 @@
         "en",
         "kr"
       ],
+      "pokemontcg_id": "svp-85",
       "tcgplayer_id": "578939",
-      "pricecharting_id": "pokemon-sv-promos-pikachu-with-grey-felt-hat",
+      "pricecharting_id": "pokemon-sv-promos/pikachu-with-grey-felt-hat",
       "ebay_search_keywords": [
         "Pikachu Grey Felt Hat",
         "Pikachu Van Gogh promo",
@@ -44,9 +42,13 @@
         "반고흐피카츄 카드",
         "피카츄 반고흐"
       ],
+      "tcgplayer_market_usd": 818.77,
+      "tcgplayer_market_krw": 1228155,
+      "thumbnail_url": "https://images.pokemontcg.io/svp/85.png",
       "last_seen_date": "2026-03-29",
       "ebay_graded_sold": [],
-      "updated_at": "2026-03-29T04:15:31.561453+09:00"
+      "avg_price_krw": 1228155,
+      "updated_at": "2026-03-29T04:32:33.379882+09:00"
     },
     {
       "id": "sv3pt5-charizard-ex-sar",
@@ -59,8 +61,9 @@
         "en",
         "kr"
       ],
+      "pokemontcg_id": "sv3pt5-205",
       "tcgplayer_id": "503625",
-      "pricecharting_id": "pokemon-151-charizard-ex",
+      "pricecharting_id": "pokemon-151/charizard-ex",
       "ebay_search_keywords": [
         "Charizard ex 151 SAR",
         "Charizard ex sv3pt5 205"
@@ -74,9 +77,13 @@
         "리자몽ex SAR",
         "리자몽 151"
       ],
+      "tcgplayer_market_usd": 28.34,
+      "tcgplayer_market_krw": 42510,
+      "thumbnail_url": "https://images.pokemontcg.io/sv3pt5/205.png",
       "last_seen_date": "2026-03-29",
       "ebay_graded_sold": [],
-      "updated_at": "2026-03-29T04:15:31.561453+09:00"
+      "avg_price_krw": 42510,
+      "updated_at": "2026-03-29T04:32:33.379882+09:00"
     },
     {
       "id": "sv4pt5-pikachu-ex-sar",
@@ -88,17 +95,22 @@
       "editions": [
         "en"
       ],
+      "pokemontcg_id": "sv4pt5-221",
       "tcgplayer_id": "554221",
-      "pricecharting_id": "pokemon-paldean-fates-pikachu-ex",
+      "pricecharting_id": "pokemon-paldean-fates/pikachu-ex",
       "ebay_search_keywords": [
         "Pikachu ex SAR Paldean Fates",
         "Pikachu ex sv4pt5"
       ],
       "naver_cafe_keywords": [],
       "domestic_search_keywords": [],
+      "tcgplayer_market_usd": 3.26,
+      "tcgplayer_market_krw": 4890,
+      "thumbnail_url": "https://images.pokemontcg.io/sv4pt5/221.png",
       "last_seen_date": "2026-03-29",
       "ebay_graded_sold": [],
-      "updated_at": "2026-03-29T04:15:31.561453+09:00"
+      "avg_price_krw": 4890,
+      "updated_at": "2026-03-29T04:32:33.379882+09:00"
     }
   ]
 }
