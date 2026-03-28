@@ -1,0 +1,25 @@
+{
+  "updated_at": "2026-03-29T03:32:44.734247+09:00",
+  "source_status": {
+    "brickeconomy": "ok",
+    "lego_official": "ok"
+  },
+  "sets": [
+    {
+      "id": "lego-pokemon-pikachu-77080",
+      "name_ko": "포켓몬 피카츄",
+      "set_number": "77080",
+      "bricklink_id": "77080-1",
+      "brickeconomy_url": "https://www.brickeconomy.com/set/77080-1/pokemon-pikachu",
+      "updated_at": "2026-03-29T03:32:44.734247+09:00"
+    },
+    {
+      "id": "lego-pokemon-gengar-77081",
+      "name_ko": "포켓몬 개굴닌자 & 이브이",
+      "set_number": "77081",
+      "bricklink_id": "77081-1",
+      "brickeconomy_url": "https://www.brickeconomy.com/set/77081-1/pokemon-greninja-eevee",
+      "updated_at": "2026-03-29T03:32:44.734247+09:00"
+    }
+  ]
+}
