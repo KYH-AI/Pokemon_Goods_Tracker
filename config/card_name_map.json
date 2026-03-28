@@ -1,0 +1,18 @@
+{
+  "_comment": "영문 카드명(소문자 정규화) → 한국어 카드명 매핑. data-enrichment-agent가 신규 카드 감지 시 이 파일을 업데이트.",
+  "_last_updated": "2026-03-28",
+  "mappings": {
+    "pikachu with grey felt hat": "반고흐 피카츄",
+    "charizard ex": "리자몽 ex",
+    "charizard ex sar": "리자몽 ex SAR",
+    "mewtwo ex": "뮤츠 ex",
+    "umbreon vmax": "블래키 vmax",
+    "pikachu vmax": "피카츄 vmax",
+    "pikachu ex sar": "피카츄 ex SAR",
+    "rayquaza vmax": "레쿠쟈 vmax",
+    "lugia v alt art": "루기아 V 이레귤러",
+    "mew vmax": "뮤 vmax",
+    "gengar vmax": "팬텀 vmax",
+    "giratina v alt art": "기라티나 V 이레귤러"
+  }
+}

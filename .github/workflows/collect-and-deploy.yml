@@ -1,0 +1,241 @@
+name: 포켓몬 굿즈 시세 수집 및 배포
+
+on:
+  schedule:
+    # KST 09:00 (UTC 00:00) 및 KST 21:00 (UTC 12:00)
+    - cron: '0 0 * * *'
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+    inputs:
+      skip_deploy:
+        description: '배포 스킵 (수집만)'
+        required: false
+        default: 'false'
+        type: string
+      force_llm:
+        description: 'LLM 강제 실행'
+        required: false
+        default: 'false'
+        type: string
+
+jobs:
+  collect-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # ========== 체크아웃 ==========
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # 이전 커밋 비교를 위해 2개 fetch
+
+      # ========== Python 환경 ==========
+      - name: Python 3.11 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 의존성 설치
+        run: |
+          pip install requests beautifulsoup4 anthropic
+
+      # ========== Step 1: 데이터 수집 (병렬) ==========
+      - name: '[Step 1] 카드 시세 수집'
+        run: |
+          python .claude/skills/card-price-collector/scripts/tcgplayer_scraper.py || true
+          python .claude/skills/card-price-collector/scripts/pricecharting_scraper.py || true
+          python .claude/skills/card-price-collector/scripts/ebay_scraper.py || true
+          python .claude/skills/card-price-collector/scripts/naver_cafe_price_scraper.py || true
+          python .claude/skills/card-price-collector/scripts/bunjang_scraper.py || true
+          python .claude/skills/card-price-collector/scripts/daangn_scraper.py || true
+        env:
+          EBAY_API_KEY: ${{ secrets.EBAY_API_KEY }}
+
+      - name: '[Step 1] 레고 시세 수집'
+        run: |
+          python .claude/skills/lego-price-collector/scripts/brickeconomy_scraper.py || true
+          python .claude/skills/lego-price-collector/scripts/lego_official_scraper.py || true
+        continue-on-error: true
+
+      - name: '[Step 1] 이벤트 수집'
+        run: |
+          python .claude/skills/event-collector/scripts/pokemon_korea_scraper.py || true
+          python .claude/skills/event-collector/scripts/naver_cafe_scraper.py || true
+        env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+        continue-on-error: true
+
+      # ========== Step 2a: LLM 보강 (조건부) ==========
+      - name: '[Step 2a] LLM 실행 여부 판단'
+        id: llm_check
+        run: |
+          SHOULD_RUN=false
+
+          # ANTHROPIC_API_KEY 확인
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "ANTHROPIC_API_KEY 미설정, LLM 스킵"
+            echo "run_llm=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # 강제 실행 플래그
+          if [ "${{ github.event.inputs.force_llm }}" = "true" ]; then
+            SHOULD_RUN=true
+          fi
+
+          # 미매핑 카드 존재 여부
+          if [ -f "data/raw/unmapped_cards.json" ]; then
+            SIZE=$(wc -c < data/raw/unmapped_cards.json)
+            if [ "$SIZE" -gt 4 ]; then
+              echo "미매핑 카드 발견"
+              SHOULD_RUN=true
+            fi
+          fi
+
+          # 네이버 카페 신규 게시글 여부
+          if [ -f "data/raw/cards_kr_naver.json" ]; then
+            ARTICLE_COUNT=$(python3 -c "import json; d=json.load(open('data/raw/cards_kr_naver.json')); print(len(d.get('articles', [])))")
+            if [ "$ARTICLE_COUNT" -gt 0 ]; then
+              echo "네이버 카페 게시글 ${ARTICLE_COUNT}개 발견"
+              SHOULD_RUN=true
+            fi
+          fi
+
+          # 커뮤니티 이벤트 여부
+          if [ -f "data/raw/events_community.json" ]; then
+            EVENT_COUNT=$(python3 -c "import json; d=json.load(open('data/raw/events_community.json')); print(len(d.get('events', [])))")
+            if [ "$EVENT_COUNT" -gt 0 ]; then
+              echo "커뮤니티 이벤트 ${EVENT_COUNT}개 발견"
+              SHOULD_RUN=true
+            fi
+          fi
+
+          # 중복 의심 이벤트 여부
+          if [ -f "data/raw/duplicate_event_candidates.json" ]; then
+            DUP_COUNT=$(python3 -c "import json; d=json.load(open('data/raw/duplicate_event_candidates.json')); print(len(d) if isinstance(d, list) else 0)")
+            if [ "$DUP_COUNT" -gt 0 ]; then
+              echo "중복 의심 이벤트 ${DUP_COUNT}쌍 발견"
+              SHOULD_RUN=true
+            fi
+          fi
+
+          echo "run_llm=$SHOULD_RUN" >> $GITHUB_OUTPUT
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: '[Step 2a] data-enrichment-agent 실행'
+        if: steps.llm_check.outputs.run_llm == 'true'
+        run: |
+          python .claude/agents/data-enrichment-agent/run.py
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        continue-on-error: true
+
+      # ========== Step 2b: 데이터 정제 (재시도 2회) ==========
+      - name: '[Step 2b] 데이터 정제'
+        id: data_processor
+        run: |
+          for attempt in 1 2 3; do
+            echo "데이터 정제 시도 $attempt/3"
+            if python .claude/skills/data-processor/scripts/card_name_mapper.py && \
+               python .claude/skills/data-processor/scripts/edition_tagger.py && \
+               python .claude/skills/data-processor/scripts/grading_normalizer.py && \
+               python .claude/skills/data-processor/scripts/price_normalizer.py && \
+               python .claude/skills/data-processor/scripts/event_deduplicator.py && \
+               python .claude/skills/data-processor/scripts/data_merger.py; then
+              echo "데이터 정제 성공 (시도 $attempt)"
+              echo "status=success" >> $GITHUB_OUTPUT
+              break
+            else
+              echo "데이터 정제 실패 (시도 $attempt)"
+              if [ "$attempt" -eq 3 ]; then
+                echo "status=failed" >> $GITHUB_OUTPUT
+              fi
+            fi
+          done
+        env:
+          BOK_API_KEY: ${{ secrets.BOK_API_KEY }}
+
+      - name: '[Step 2b] 정제 실패 시 이전 데이터 유지 확인'
+        if: steps.data_processor.outputs.status == 'failed'
+        run: |
+          echo "데이터 정제 실패. 이전 data/cards.json, lego.json, events.json 유지."
+          ls -la data/ || echo "data/ 없음"
+
+      # ========== Step 3: 검증 ==========
+      - name: '[Step 3] 데이터 검증'
+        id: validator
+        run: |
+          python .claude/skills/validator/scripts/validate_data.py
+          echo "status=passed" >> $GITHUB_OUTPUT
+        continue-on-error: false  # 스키마 실패 시 파이프라인 중단
+
+      # ========== data/ 변경사항 커밋 ==========
+      - name: 수집 데이터 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ config/exchange_rate.json config/card_name_map.json logs/ || true
+          git diff --staged --quiet || git commit -m "chore: 시세 데이터 자동 수집 $(date +'%Y-%m-%d %H:%M KST')"
+          git push origin HEAD || true
+
+      # ========== Step 4: 사이트 빌드 (재시도 1회) ==========
+      - name: '[Step 4] 사이트 빌드'
+        id: site_builder
+        run: |
+          for attempt in 1 2; do
+            echo "사이트 빌드 시도 $attempt/2"
+            if python .claude/skills/site-builder/scripts/build_site.py; then
+              echo "빌드 성공"
+              echo "status=success" >> $GITHUB_OUTPUT
+              break
+            else
+              echo "빌드 실패 (시도 $attempt)"
+              if [ "$attempt" -eq 2 ]; then
+                echo "status=failed" >> $GITHUB_OUTPUT
+                exit 1
+              fi
+            fi
+          done
+
+      # ========== Step 5: gh-pages 배포 ==========
+      - name: '[Step 5] GitHub Pages 배포'
+        if: >
+          steps.site_builder.outputs.status == 'success' &&
+          github.event.inputs.skip_deploy != 'true'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site/build
+          publish_branch: gh-pages
+          force_orphan: false
+          commit_message: 'deploy: 시세 업데이트 ${{ github.run_number }}'
+
+      # ========== 배포 검증 ==========
+      - name: '배포 후 HTTP 검증'
+        if: steps.site_builder.outputs.status == 'success'
+        run: |
+          sleep 15
+          PAGES_URL="https://${{ github.repository_owner }}.github.io/$(basename ${{ github.repository }})"
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$PAGES_URL" --max-time 15 || echo "000")
+          echo "GitHub Pages HTTP 응답: $HTTP_CODE (URL: $PAGES_URL)"
+          if [ "$HTTP_CODE" = "200" ]; then
+            echo "배포 검증 성공"
+          else
+            echo "배포 검증 실패 (HTTP $HTTP_CODE)"
+            # 롤백은 gh-pages 브랜치의 이전 커밋으로 (수동 처리 또는 별도 워크플로우)
+          fi
+        continue-on-error: true
+
+      # ========== 실패 요약 ==========
+      - name: 실패 요약
+        if: failure()
+        run: |
+          echo "=== 파이프라인 실패 요약 ==="
+          echo "데이터 정제 상태: ${{ steps.data_processor.outputs.status }}"
+          echo "빌드 상태: ${{ steps.site_builder.outputs.status }}"
+          ls -la data/ 2>/dev/null || echo "data/ 없음"
+          ls -la logs/ 2>/dev/null || echo "logs/ 없음"
+          cat logs/validate_*.json 2>/dev/null | tail -50 || true

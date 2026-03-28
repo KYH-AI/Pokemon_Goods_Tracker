@@ -1,0 +1,10 @@
+{
+  "_comment": "한국은행 ECOS API 환율 캐시. 최대 7일 유효. 만료 시 price_normalizer.py가 자동 갱신.",
+  "base_currency": "USD",
+  "target_currency": "KRW",
+  "rate": 1500.0,
+  "fetched_at": "2026-03-28T09:00:00+09:00",
+  "expires_at": "2026-04-04T09:00:00+09:00",
+  "source": "한국은행 ECOS API",
+  "fallback_used": true
+}

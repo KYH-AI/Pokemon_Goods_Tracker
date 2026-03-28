@@ -1,0 +1,24 @@
+{
+  "_comment": "eBay API 설정. API 키는 환경변수 EBAY_API_KEY에서 로드.",
+  "api_key_env": "EBAY_API_KEY",
+  "marketplace_id": "EBAY_US",
+  "currency": "USD",
+  "edition_scope": "en",
+  "sold_listings_days_back": 30,
+  "max_results_per_card": 20,
+  "fallback_to_scraping": true,
+  "request_timeout_sec": 15,
+  "grading_search_patterns": {
+    "PSA": {
+      "10": ["PSA 10", "PSA Gem Mint 10"],
+      "9": ["PSA 9", "PSA Mint 9"],
+      "8": ["PSA 8", "PSA NM-MT 8"]
+    },
+    "BGS": {
+      "10": ["BGS 10", "BGS Pristine", "BGS Black Label"],
+      "9.5": ["BGS 9.5", "BGS Gem Mint"],
+      "9": ["BGS 9", "BGS Mint"],
+      "8.5": ["BGS 8.5"]
+    }
+  }
+}

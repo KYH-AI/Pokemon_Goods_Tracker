@@ -1,0 +1,22 @@
+{
+  "_comment": "추적할 그레이딩 회사 및 등급 정의. 이 목록에 없는 등급은 수집하지 않음.",
+  "grading_companies": {
+    "PSA": {
+      "grades": ["10", "9", "8"],
+      "labels": {
+        "10": "Gem Mint",
+        "9": "Mint",
+        "8": "NM-MT"
+      }
+    },
+    "BGS": {
+      "grades": ["10", "9.5", "9", "8.5"],
+      "labels": {
+        "10": "Pristine / Black Label",
+        "9.5": "Gem Mint",
+        "9": "Mint",
+        "8.5": "NM-MT+"
+      }
+    }
+  }
+}

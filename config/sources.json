@@ -1,0 +1,86 @@
+{
+  "_comment": "크롤러가 참조하는 URL 및 설정. 소스 구조 변경 시 이 파일만 수정.",
+  "card_sources": {
+    "tcgplayer": {
+      "base_url": "https://www.tcgplayer.com",
+      "price_api_url": "https://api.tcgplayer.com/v1.39.0/pricing/product/{id}",
+      "product_url": "https://www.tcgplayer.com/product/{id}",
+      "enabled": true,
+      "request_delay_sec": 2
+    },
+    "pricecharting": {
+      "base_url": "https://www.pricecharting.com",
+      "product_url": "https://www.pricecharting.com/game/{pricecharting_id}",
+      "enabled": true,
+      "request_delay_sec": 2
+    },
+    "ebay": {
+      "browse_api_url": "https://api.ebay.com/buy/browse/v1/item_summary/search",
+      "fallback_search_url": "https://www.ebay.com/sch/i.html",
+      "sold_filter_params": "LH_Complete=1&LH_Sold=1",
+      "enabled": true,
+      "request_delay_sec": 1,
+      "sold_days_back": 30
+    },
+    "naver_cafe": {
+      "search_url": "https://cafe.naver.com/ArticleSearchList.nhn",
+      "target_cafes": [
+        {"name": "포켓몬 트레이딩 카드 게임", "id": "pokeca"},
+        {"name": "포켓몬 코리아 팬 카페", "id": "pokemonfan"}
+      ],
+      "enabled": true,
+      "request_delay_sec": 1,
+      "login_required": false
+    },
+    "bunjang": {
+      "search_url": "https://m.bunjang.co.kr/search/products",
+      "enabled": true,
+      "request_delay_range": [3, 5],
+      "fee_percent": 6
+    },
+    "daangn": {
+      "search_url": "https://www.daangn.com/search",
+      "enabled": true,
+      "request_delay_range": [5, 8]
+    }
+  },
+  "lego_sources": {
+    "brickeconomy": {
+      "base_url": "https://www.brickeconomy.com",
+      "enabled": true,
+      "request_delay_sec": 3
+    },
+    "lego_official": {
+      "base_url": "https://www.lego.com",
+      "product_url": "https://www.lego.com/ko-kr/product/{set_number}",
+      "enabled": true,
+      "request_delay_sec": 2
+    },
+    "bricklink": {
+      "api_url": "https://api.bricklink.com/api/store/v1",
+      "enabled": false,
+      "note": "v2 예정"
+    }
+  },
+  "event_sources": {
+    "pokemon_korea": {
+      "base_url": "https://www.pokemon.co.kr",
+      "events_url": "https://www.pokemon.co.kr/event/",
+      "enabled": true,
+      "request_delay_sec": 2
+    },
+    "naver_cafe_events": {
+      "target_cafes": [
+        {"name": "pokeca", "event_category_keywords": ["행사", "이벤트", "대회", "공지"]}
+      ],
+      "google_sheet_fallback_env": "GOOGLE_SHEET_ID",
+      "enabled": true
+    }
+  },
+  "exchange_rate": {
+    "bok_api_url": "https://ecos.bok.or.kr/api/StatisticSearch/{api_key}/json/kr/1/1/731Y001/DD/{date}/{date}/0000001",
+    "api_key_env": "BOK_API_KEY",
+    "cache_days": 7,
+    "fallback_rate": 1340.0
+  }
+}

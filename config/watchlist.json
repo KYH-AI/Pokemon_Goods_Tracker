@@ -1,0 +1,63 @@
+{
+  "_comment": "시세를 추적할 카드와 레고 목록. 새 항목 추가 시 이 파일을 수정 후 push.",
+  "cards": [
+    {
+      "id": "sv-pikachu-vangogh",
+      "name_en": "Pikachu with Grey Felt Hat",
+      "name_ko": "반고흐 피카츄",
+      "set": "SVP Black Star Promos",
+      "set_id": "svp",
+      "category": "collab",
+      "editions": ["en", "kr"],
+      "tcgplayer_id": "578939",
+      "pricecharting_id": "pokemon-sv-promos-pikachu-with-grey-felt-hat",
+      "ebay_search_keywords": ["Pikachu Grey Felt Hat", "Pikachu Van Gogh promo", "SVP 085"],
+      "naver_cafe_keywords": ["반고흐 피카츄", "반고흐피카츄", "Van Gogh Pikachu"],
+      "domestic_search_keywords": ["반고흐 피카츄", "반고흐피카츄 카드", "피카츄 반고흐"]
+    },
+    {
+      "id": "sv3pt5-charizard-ex-sar",
+      "name_en": "Charizard ex SAR",
+      "name_ko": "리자몽 ex SAR",
+      "set": "Pokemon 151",
+      "set_id": "sv3pt5",
+      "category": "expansion",
+      "editions": ["en", "kr"],
+      "tcgplayer_id": "503625",
+      "pricecharting_id": "pokemon-151-charizard-ex",
+      "ebay_search_keywords": ["Charizard ex 151 SAR", "Charizard ex sv3pt5 205"],
+      "naver_cafe_keywords": ["리자몽 ex SAR", "리자몽ex SAR 151"],
+      "domestic_search_keywords": ["리자몽 ex SAR", "리자몽ex SAR", "리자몽 151"]
+    },
+    {
+      "id": "sv4pt5-pikachu-ex-sar",
+      "name_en": "Pikachu ex SAR",
+      "name_ko": "피카츄 ex SAR",
+      "set": "Paldean Fates",
+      "set_id": "sv4pt5",
+      "category": "expansion",
+      "editions": ["en"],
+      "tcgplayer_id": "554221",
+      "pricecharting_id": "pokemon-paldean-fates-pikachu-ex",
+      "ebay_search_keywords": ["Pikachu ex SAR Paldean Fates", "Pikachu ex sv4pt5"],
+      "naver_cafe_keywords": [],
+      "domestic_search_keywords": []
+    }
+  ],
+  "lego": [
+    {
+      "id": "lego-pokemon-pikachu-77080",
+      "name_ko": "포켓몬 피카츄",
+      "set_number": "77080",
+      "bricklink_id": "77080-1",
+      "brickeconomy_url": "https://www.brickeconomy.com/set/77080-1/pokemon-pikachu"
+    },
+    {
+      "id": "lego-pokemon-gengar-77081",
+      "name_ko": "포켓몬 개굴닌자 & 이브이",
+      "set_number": "77081",
+      "bricklink_id": "77081-1",
+      "brickeconomy_url": "https://www.brickeconomy.com/set/77081-1/pokemon-greninja-eevee"
+    }
+  ]
+}

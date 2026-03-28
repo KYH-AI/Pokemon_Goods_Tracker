@@ -1,0 +1,774 @@
+/* 포켓몬 굿즈 시세 — 메인 스타일시트 */
+
+/* ========== CSS 변수 (포켓몬 색상 팔레트) ========== */
+:root {
+    --pokemon-yellow: #FFCB05;
+    --pokemon-blue: #3D7DCA;
+    --pokemon-red: #CC0000;
+    --pokemon-dark: #1a1a2e;
+    --pokemon-gray: #f4f4f8;
+
+    --text-primary: #1a1a2e;
+    --text-secondary: #5a5a7a;
+    --text-muted: #9a9ab0;
+
+    --bg-primary: #ffffff;
+    --bg-secondary: #f4f4f8;
+    --bg-card: #ffffff;
+
+    --border-color: #e0e0ee;
+    --border-radius: 12px;
+    --border-radius-sm: 8px;
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.18);
+
+    --transition: 0.2s ease;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', 'Segoe UI', sans-serif;
+}
+
+/* ========== 리셋 & 기본 ========== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ========== 헤더 ========== */
+.app-header {
+    background: linear-gradient(135deg, var(--pokemon-blue) 0%, #2a5fa8 100%);
+    color: white;
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-md);
+}
+
+.header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.app-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.title-icon {
+    color: var(--pokemon-yellow);
+    font-size: 1.1rem;
+}
+
+.last-updated {
+    font-size: 0.75rem;
+    opacity: 0.85;
+    white-space: nowrap;
+}
+
+/* ========== 탭 네비게이션 ========== */
+.tab-nav {
+    display: flex;
+    background: var(--bg-primary);
+    border-bottom: 2px solid var(--border-color);
+    position: sticky;
+    top: 57px;
+    z-index: 90;
+    max-width: 960px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 14px 8px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color var(--transition), border-color var(--transition);
+    font-family: var(--font-sans);
+}
+
+.tab-btn:hover {
+    color: var(--pokemon-blue);
+    background: rgba(61, 125, 202, 0.04);
+}
+
+.tab-btn.active {
+    color: var(--pokemon-blue);
+    border-bottom-color: var(--pokemon-blue);
+}
+
+/* ========== 탭 컨텐츠 ========== */
+.tab-content {
+    display: none;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ========== 필터 바 ========== */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: var(--bg-primary);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.btn-group {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 6px 12px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 20px;
+    background: var(--bg-primary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-sans);
+}
+
+.filter-btn:hover {
+    border-color: var(--pokemon-blue);
+    color: var(--pokemon-blue);
+}
+
+.filter-btn.active {
+    background: var(--pokemon-blue);
+    border-color: var(--pokemon-blue);
+    color: white;
+}
+
+.filter-select {
+    padding: 6px 12px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 20px;
+    background: var(--bg-primary);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: var(--font-sans);
+    outline: none;
+}
+
+.filter-select:focus {
+    border-color: var(--pokemon-blue);
+}
+
+/* ========== 카드 그리드 ========== */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+/* ========== 카드 아이템 ========== */
+.price-card {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform var(--transition), box-shadow var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.price-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.card-thumbnail {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    background: var(--bg-secondary);
+}
+
+.card-thumbnail-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, var(--bg-secondary), var(--border-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.card-body {
+    padding: 12px;
+}
+
+.card-name-ko {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+}
+
+.card-name-en {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.card-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 10px;
+}
+
+.card-price-main {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--pokemon-blue);
+    margin-bottom: 4px;
+}
+
+.card-price-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.last-seen {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.freshness-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.freshness-dot.fresh {
+    background: #22c55e;
+}
+
+.freshness-dot.stale {
+    background: #ef4444;
+}
+
+/* ========== 배지 스타일 ========== */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 7px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+.badge-kr {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffc107;
+}
+
+.badge-en {
+    background: #cfe2ff;
+    color: #084298;
+    border: 1px solid #0d6efd;
+}
+
+.badge-warning {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffc107;
+}
+
+.badge-anomaly {
+    background: #f8d7da;
+    color: #842029;
+    border: 1px solid #dc3545;
+}
+
+.badge-category {
+    background: var(--pokemon-gray);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+/* ========== 소스 상태 배지 ========== */
+.source-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.source-badge-ok {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.source-badge-missing {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.source-badge-blocked {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+/* ========== 이벤트 목록 ========== */
+.event-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.event-item {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    padding: 16px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    gap: 12px;
+}
+
+.event-item.status-ongoing {
+    border-left: 4px solid #22c55e;
+}
+
+.event-item.status-upcoming {
+    border-left: 4px solid var(--pokemon-blue);
+}
+
+.event-item.status-ended {
+    border-left: 4px solid var(--text-muted);
+    opacity: 0.7;
+}
+
+.event-thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: var(--border-radius-sm);
+    flex-shrink: 0;
+}
+
+.event-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.event-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+}
+
+.event-date {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.event-category {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.status-ongoing { background: #22c55e; }
+.status-upcoming { background: var(--pokemon-blue); }
+.status-ended { background: var(--text-muted); }
+
+/* ========== 레고 그리드 ========== */
+.lego-card {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.lego-thumbnail {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    background: var(--bg-secondary);
+}
+
+.lego-body {
+    padding: 12px;
+}
+
+.lego-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.lego-set-number {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.lego-price-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    margin-bottom: 4px;
+}
+
+.lego-price-label {
+    color: var(--text-secondary);
+}
+
+.lego-price-value {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.premium-positive {
+    color: #ef4444;
+    font-weight: 700;
+}
+
+.premium-negative {
+    color: #22c55e;
+    font-weight: 700;
+}
+
+.retired-badge {
+    background: #f3e8ff;
+    color: #6b21a8;
+    border: 1px solid #a855f7;
+}
+
+/* ========== 정보 탭 ========== */
+.info-section {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.info-section h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--pokemon-blue);
+    margin-bottom: 10px;
+    margin-top: 20px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--pokemon-yellow);
+}
+
+.info-section h2:first-child {
+    margin-top: 0;
+}
+
+.info-list {
+    padding-left: 18px;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+.warning-text {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: var(--border-radius-sm);
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: #856404;
+}
+
+.source-status-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.build-info-box {
+    margin-top: 16px;
+    padding: 12px;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+/* ========== 모달 ========== */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.modal[hidden] {
+    display: none;
+}
+
+.modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    background: var(--bg-primary);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    max-width: 600px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 20px;
+    z-index: 1;
+}
+
+@media (min-width: 640px) {
+    .modal {
+        align-items: center;
+    }
+    .modal-content {
+        border-radius: var(--border-radius);
+        max-height: 80vh;
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: var(--bg-secondary);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition);
+}
+
+.modal-close:hover {
+    background: var(--border-color);
+}
+
+.modal-card-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-right: 40px;
+}
+
+.modal-price-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin-bottom: 16px;
+}
+
+.modal-price-table th {
+    text-align: left;
+    padding: 8px 10px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.78rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-price-table td {
+    padding: 10px 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--pokemon-blue);
+    margin: 16px 0 8px;
+    border-bottom: 1px solid var(--pokemon-yellow);
+    padding-bottom: 4px;
+}
+
+.domestic-listing-item {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.82rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+/* ========== 로딩 스피너 ========== */
+.loading-spinner {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    gap: 12px;
+}
+
+.spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--pokemon-blue);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ========== 빈 상태 ========== */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+
+.empty-state p {
+    font-size: 0.875rem;
+    margin-top: 8px;
+}
+
+/* ========== 푸터 ========== */
+.app-footer {
+    text-align: center;
+    padding: 24px 16px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border-color);
+    margin-top: 32px;
+    line-height: 1.8;
+}
+
+/* ========== 반응형 ========== */
+@media (max-width: 640px) {
+    .app-title {
+        font-size: 1.1rem;
+    }
+
+    .tab-btn {
+        font-size: 0.78rem;
+        padding: 12px 4px;
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 10px;
+    }
+
+    .filter-bar {
+        flex-direction: column;
+    }
+
+    .event-item {
+        flex-direction: column;
+    }
+
+    .event-thumbnail {
+        width: 100%;
+        height: 160px;
+    }
+
+    .modal-content {
+        padding: 16px;
+    }
+}
+
+@media (min-width: 768px) {
+    .tab-nav {
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+    }
+}

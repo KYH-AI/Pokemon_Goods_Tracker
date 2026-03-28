@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# 환경변수
+.env
+.env.*
+
+# 런타임 생성 파일 (수집 결과)
+data/raw/*.json
+logs/*.json
+
+# 빌드 산출물
+site/build/
+
+# OS
+.DS_Store
+Thumbs.db
