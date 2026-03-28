@@ -24,7 +24,6 @@ HEADERS = {
 
 # PriceCharting CSS 선택자 (구조 변경 시 config/sources.json으로 이관 예정)
 PRICE_SELECTORS = {
-    "raw": "#used-price",
     "PSA_10": "#grade-psa-10-price",
     "PSA_9": "#grade-psa-9-price",
     "PSA_8": "#grade-psa-8-price",
@@ -33,6 +32,16 @@ PRICE_SELECTORS = {
     "BGS_9": "#grade-bgs-9-price",
     "BGS_8.5": "#grade-bgs-8-5-price",
 }
+
+# 미그레이딩(raw) 가격 선택자 — fallback 순서
+RAW_PRICE_SELECTORS = [
+    "#used-price",
+    "#used_price",
+    "td#used-price",
+    "span#used-price",
+    "[id*='used-price']",
+    "#complete-price",  # PriceCharting 일부 카드에서 사용
+]
 
 
 def parse_price_usd(text: str):
@@ -52,10 +61,12 @@ def scrape_card(card: dict) -> dict:
         return {"id": card["id"], "status": "no_id"}
 
     url = f"https://www.pricecharting.com/game/{pid}"
+    print(f"  → {card['id']} ({url})")
     time.sleep(2 + random.uniform(0, 1))
 
     try:
         resp = requests.get(url, headers=HEADERS, timeout=15)
+        print(f"    HTTP {resp.status_code}, HTML 길이: {len(resp.text)}")
         if resp.status_code == 403:
             print(f"  [BLOCKED] PriceCharting {card['id']}: HTTP 403")
             return {"id": card["id"], "status": "blocked"}
@@ -65,18 +76,29 @@ def scrape_card(card: dict) -> dict:
         soup = BeautifulSoup(resp.text, "html.parser")
         result = {"id": card["id"], "pricecharting_id": pid, "status": "ok"}
 
-        # 미그레이딩 가격
-        raw_el = soup.select_one(PRICE_SELECTORS["raw"])
+        # 미그레이딩 가격 — 다중 선택자 fallback
+        raw_el = None
+        matched_sel = None
+        for sel in RAW_PRICE_SELECTORS:
+            raw_el = soup.select_one(sel)
+            if raw_el:
+                matched_sel = sel
+                break
+
         if raw_el:
             price = parse_price_usd(raw_el.get_text())
             if price:
                 result["raw_usd"] = price
+                print(f"    raw_usd={price} (선택자: {matched_sel})")
+            else:
+                print(f"    [WARN] '{matched_sel}' 발견했지만 파싱 실패: '{raw_el.get_text()[:60]}'")
+        else:
+            page_title = soup.title.text.strip() if soup.title else "N/A"
+            print(f"    [WARN] raw price 선택자 전부 미발견. page_title='{page_title}'")
 
         # 등급별 가격
         graded = []
         for key, selector in PRICE_SELECTORS.items():
-            if key == "raw":
-                continue
             el = soup.select_one(selector)
             if not el:
                 continue

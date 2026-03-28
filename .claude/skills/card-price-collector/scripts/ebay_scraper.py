@@ -17,6 +17,8 @@ except ImportError:
 ROOT = Path(__file__).parent.parent.parent.parent.parent
 KST = timezone(timedelta(hours=9))
 
+_ebay_blocked = False  # 첫 차단/timeout 감지 시 이후 모든 요청 즉시 스킵
+
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
     "Accept-Language": "en-US,en;q=0.9",
@@ -40,6 +42,10 @@ def extract_usd_price(text: str):
 
 def scrape_ebay_sold(keyword: str, max_results: int = 10) -> list:
     """eBay 낙찰 완료 리스팅 크롤링."""
+    global _ebay_blocked
+    if _ebay_blocked:
+        return []
+
     url = "https://www.ebay.com/sch/i.html"
     params = {
         "_nkw": keyword,
@@ -51,9 +57,10 @@ def scrape_ebay_sold(keyword: str, max_results: int = 10) -> list:
     }
     time.sleep(1)
     try:
-        resp = requests.get(url, params=params, headers=HEADERS, timeout=15)
-        if resp.status_code == 403:
-            print(f"  [BLOCKED] eBay: HTTP 403 (keyword={keyword!r})")
+        resp = requests.get(url, params=params, headers=HEADERS, timeout=8)
+        if resp.status_code in (403, 503):
+            _ebay_blocked = True
+            print(f"  [BLOCKED] eBay: HTTP {resp.status_code} → 이후 모든 eBay 요청 스킵")
             return []
         if resp.status_code != 200:
             print(f"  [WARN] eBay HTTP {resp.status_code} (keyword={keyword!r})")
@@ -97,6 +104,10 @@ def scrape_ebay_sold(keyword: str, max_results: int = 10) -> list:
                 "sold_date": sold_date,
             })
         return items
+    except requests.exceptions.Timeout:
+        _ebay_blocked = True
+        print(f"  [BLOCKED] eBay: timeout → 이후 모든 eBay 요청 스킵")
+        return []
     except Exception as e:
         print(f"  [ERROR] eBay 파싱 실패: {e}")
         return []
