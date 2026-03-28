@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-29T03:03:53.734793+09:00",
+  "updated_at": "2026-03-29T04:00:26.906785+09:00",
   "source_status": {
     "brickeconomy": "ok",
     "lego_official": "ok"
@@ -11,7 +11,7 @@
       "set_number": "77080",
       "bricklink_id": "77080-1",
       "brickeconomy_url": "https://www.brickeconomy.com/set/77080-1/pokemon-pikachu",
-      "updated_at": "2026-03-29T03:03:53.734793+09:00"
+      "updated_at": "2026-03-29T04:00:26.906785+09:00"
     },
     {
       "id": "lego-pokemon-gengar-77081",
@@ -19,7 +19,7 @@
       "set_number": "77081",
       "bricklink_id": "77081-1",
       "brickeconomy_url": "https://www.brickeconomy.com/set/77081-1/pokemon-greninja-eevee",
-      "updated_at": "2026-03-29T03:03:53.734793+09:00"
+      "updated_at": "2026-03-29T04:00:26.906785+09:00"
     }
   ]
 }
