@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-29T18:37:48.870152+09:00",
+  "updated_at": "2026-03-29T22:05:49.219734+09:00",
   "source_status": {
     "brickeconomy": "ok",
     "lego_official": "ok",
@@ -21,7 +21,7 @@
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/72151-1.jpg",
       "retail_price_krw": 79900,
-      "updated_at": "2026-03-29T18:37:48.870152+09:00"
+      "updated_at": "2026-03-29T22:05:49.219734+09:00"
     },
     {
       "id": "lego-pokemon-pikachu-pokeball-72152",
@@ -38,7 +38,7 @@
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/72152-1.jpg",
       "retail_price_krw": 279900,
-      "updated_at": "2026-03-29T18:37:48.870152+09:00"
+      "updated_at": "2026-03-29T22:05:49.219734+09:00"
     },
     {
       "id": "lego-pokemon-starters-72153",
@@ -55,7 +55,7 @@
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/72153-1.jpg",
       "retail_price_krw": 949900,
-      "updated_at": "2026-03-29T18:37:48.870152+09:00"
+      "updated_at": "2026-03-29T22:05:49.219734+09:00"
     },
     {
       "id": "lego-pokemon-mini-center-40911",
@@ -70,7 +70,7 @@
         "레고 40911"
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/40911-1.jpg",
-      "updated_at": "2026-03-29T18:37:48.870152+09:00"
+      "updated_at": "2026-03-29T22:05:49.219734+09:00"
     },
     {
       "id": "lego-pokemon-kanto-badges-40892",
@@ -85,7 +85,7 @@
         "레고 포켓몬 배지 40892"
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/40892-1.jpg",
-      "updated_at": "2026-03-29T18:37:48.870152+09:00"
+      "updated_at": "2026-03-29T22:05:49.219734+09:00"
     }
   ]
 }
