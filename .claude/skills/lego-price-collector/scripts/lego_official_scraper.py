@@ -44,13 +44,25 @@ def scrape_lego_official(lego_item: dict) -> dict:
     if not set_number:
         return {"id": lego_item["id"], "status": "no_set_number"}
 
-    url = f"https://www.lego.com/ko-kr/product/{set_number}"
+    # watchlist에 하드코딩된 정가 / 썸네일 (scraping 실패 시 fallback)
+    watchlist_price = lego_item.get("official_price_krw")
+    watchlist_thumb = lego_item.get("thumbnail_url", "")
+    lego_url = lego_item.get("lego_official_url", f"https://www.lego.com/ko-kr/product/{set_number}")
+
     time.sleep(2 + random.uniform(0, 0.5))
 
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=20, allow_redirects=True)
+        resp = requests.get(lego_url, headers=HEADERS, timeout=20, allow_redirects=True)
         if resp.status_code == 404:
             return {"id": lego_item["id"], "status": "not_found", "set_number": set_number}
+        if resp.status_code == 403:
+            print(f"  [BLOCKED] LEGO 공식 {lego_item['id']}: HTTP 403 → watchlist 정가 사용")
+            result = {"id": lego_item["id"], "set_number": set_number, "status": "ok", "price_source": "watchlist"}
+            if watchlist_price:
+                result["retail_price_krw"] = watchlist_price
+            if watchlist_thumb:
+                result["thumbnail_url"] = watchlist_thumb
+            return result
         if resp.status_code != 200:
             return {"id": lego_item["id"], "status": f"http_{resp.status_code}"}
 
@@ -60,7 +72,8 @@ def scrape_lego_official(lego_item: dict) -> dict:
             "set_number": set_number,
             "name_ko": lego_item.get("name_ko", ""),
             "status": "ok",
-            "url": url,
+            "url": lego_url,
+            "price_source": "scraped",
         }
 
         # 정가 추출
@@ -73,6 +86,9 @@ def scrape_lego_official(lego_item: dict) -> dict:
             price = parse_krw(price_el.get_text())
             if price:
                 result["retail_price_krw"] = price
+        if "retail_price_krw" not in result and watchlist_price:
+            result["retail_price_krw"] = watchlist_price
+            result["price_source"] = "watchlist"
 
         # 재고 상태
         stock_el = (
@@ -87,7 +103,7 @@ def scrape_lego_official(lego_item: dict) -> dict:
             elif any(word in stock_text for word in ["구매", "add to", "장바구니", "available"]):
                 result["in_stock"] = True
 
-        # 썸네일
+        # 썸네일 (scraped 우선, 없으면 watchlist)
         img = (
             soup.select_one("[data-test='product-image'] img")
             or soup.select_one(".ProductImage_image__ img")
@@ -97,12 +113,19 @@ def scrape_lego_official(lego_item: dict) -> dict:
             src = img.get("src", "") or img.get("data-src", "")
             if src:
                 result["thumbnail_url"] = src
+        if "thumbnail_url" not in result and watchlist_thumb:
+            result["thumbnail_url"] = watchlist_thumb
 
         return result
 
     except requests.RequestException as e:
         print(f"  [ERROR] LEGO 공식 {lego_item['id']}: {e}")
-        return {"id": lego_item["id"], "status": "error", "error": str(e)}
+        result = {"id": lego_item["id"], "status": "error", "error": str(e), "price_source": "watchlist"}
+        if watchlist_price:
+            result["retail_price_krw"] = watchlist_price
+        if watchlist_thumb:
+            result["thumbnail_url"] = watchlist_thumb
+        return result
 
 
 def main():

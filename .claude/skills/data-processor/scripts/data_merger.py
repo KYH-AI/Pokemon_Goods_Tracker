@@ -191,6 +191,25 @@ def merge_lego() -> dict:
     else:
         source_status["lego_official"] = "missing"
 
+    # 번개장터 중고 시세
+    bj_data = load_json_safe(raw_dir / "lego_bunjang.json")
+    if bj_data:
+        source_status["bunjang"] = "ok"
+        for entry in bj_data.get("sets", []):
+            sid = entry.get("id", "")
+            if sid not in lego_index:
+                continue
+            target = lego_index[sid]
+            status = entry.get("status", "ok")
+            if status not in ("ok",):
+                source_status[f"bunjang_{sid}"] = status
+                continue
+            for k in ("bunjang_avg_krw", "bunjang_min_krw", "bunjang_max_krw", "bunjang_count", "bunjang_listings"):
+                if k in entry:
+                    target[k] = entry[k]
+    else:
+        source_status["bunjang"] = "missing"
+
     final_sets = []
     for sid, s in lego_index.items():
         s["updated_at"] = now_str

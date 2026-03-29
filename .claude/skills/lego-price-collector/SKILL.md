@@ -11,25 +11,26 @@
 ## 실행 순서
 
 ```bash
-python .claude/skills/lego-price-collector/scripts/brickeconomy_scraper.py || true
 python .claude/skills/lego-price-collector/scripts/lego_official_scraper.py || true
-# bricklink_api.py는 v2 예정, 현재 비활성화
+python .claude/skills/lego-price-collector/scripts/lego_bunjang_scraper.py || true
+# brickeconomy_scraper.py: 현재 403 차단, 실행해도 무해함
+# bricklink_api.py: v2 예정, 현재 비활성화
 ```
 
 ## 입력
 
-- `config/watchlist.json` — 수집 대상 레고 목록
+- `config/watchlist.json` — 수집 대상 레고 목록 (`official_price_krw`, `bunjang_search_keywords` 포함)
 - `config/sources.json` — 소스별 URL
-- `config/exchange_rate.json` — USD→KRW 환율 캐시
 
 ## 출력
 
-- `data/raw/lego_brickeconomy.json`
-- `data/raw/lego_official.json`
+- `data/raw/lego_official.json` — 정가 (LEGO 공식 scraping 또는 watchlist fallback)
+- `data/raw/lego_bunjang.json` — 번개장터 중고 시세
 
 ## 에러 처리
 
-- BrickEconomy 차단 시: `lego_official.json`의 정가만 표시
+- LEGO 공식 403 차단 시: `watchlist.json`의 `official_price_krw` 사용 (price_source: "watchlist")
+- 번개장터 매물 없음: `no_results` 상태로 기록, 파이프라인 계속
 - 스크립트 오류 시: `||true`로 스킵
 
 ## 제약

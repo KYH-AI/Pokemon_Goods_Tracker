@@ -60,6 +60,12 @@
       "api_url": "https://api.bricklink.com/api/store/v1",
       "enabled": false,
       "note": "v2 예정"
+    },
+    "bunjang": {
+      "api_url": "https://api.bunjang.co.kr/api/1/find_v2.json",
+      "enabled": true,
+      "request_delay_sec": 1,
+      "note": "레고 중고 시세 수집"
     }
   },
   "event_sources": {
