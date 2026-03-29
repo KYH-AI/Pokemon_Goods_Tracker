@@ -1,12 +1,16 @@
 {
-  "updated_at": "2026-03-29T17:52:59.898071+09:00",
+  "updated_at": "2026-03-29T18:37:48.869762+09:00",
   "source_status": {
     "tcgplayer": "ok",
     "pricecharting": "ok",
-    "ebay": "missing",
+    "ebay": "ok",
     "naver_cafe": "missing",
-    "bunjang": "missing",
-    "daangn": "missing"
+    "bunjang": "ok",
+    "bunjang_sv-pikachu-vangogh": "no_results",
+    "bunjang_sv3pt5-charizard-ex-sar": "no_results",
+    "daangn": "ok",
+    "daangn_sv-pikachu-vangogh": "no_results",
+    "daangn_sv3pt5-charizard-ex-sar": "no_results"
   },
   "cards": [
     {
@@ -44,8 +48,9 @@
       "last_seen_date": "2026-03-29",
       "pc_raw_usd": 804.21,
       "pc_raw_krw": 1206315,
+      "ebay_graded_sold": [],
       "avg_price_krw": 1220235,
-      "updated_at": "2026-03-29T17:52:59.898071+09:00"
+      "updated_at": "2026-03-29T18:37:48.869762+09:00"
     },
     {
       "id": "sv3pt5-charizard-ex-sar",
@@ -80,8 +85,9 @@
       "last_seen_date": "2026-03-29",
       "pc_raw_usd": 413.0,
       "pc_raw_krw": 619500,
+      "ebay_graded_sold": [],
       "avg_price_krw": 612135,
-      "updated_at": "2026-03-29T17:52:59.898071+09:00"
+      "updated_at": "2026-03-29T18:37:48.869762+09:00"
     },
     {
       "id": "sv4pt5-pidgeot-ex-sur",
@@ -108,8 +114,9 @@
       "last_seen_date": "2026-03-29",
       "pc_raw_usd": 3.73,
       "pc_raw_krw": 5595,
+      "ebay_graded_sold": [],
       "avg_price_krw": 5107,
-      "updated_at": "2026-03-29T17:52:59.898071+09:00"
+      "updated_at": "2026-03-29T18:37:48.869762+09:00"
     }
   ]
 }
