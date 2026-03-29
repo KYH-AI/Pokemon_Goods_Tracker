@@ -60,6 +60,9 @@ def merge_cards() -> dict:
             status = card_entry.get("status", "ok")
             if status not in ("ok",):
                 source_status[f"{source_name}_{cid}"] = status
+                # error여도 thumbnail_url은 챙김 (pokemontcg_id fallback 포함)
+                if source_name == "tcgplayer" and "thumbnail_url" in card_entry and "thumbnail_url" not in target:
+                    target["thumbnail_url"] = card_entry["thumbnail_url"]
                 continue
 
             if source_name == "tcgplayer":

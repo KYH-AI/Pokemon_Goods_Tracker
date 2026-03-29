@@ -98,7 +98,10 @@ def fetch_card_prices(card: dict) -> dict:
 
     except (requests.RequestException, ValueError, KeyError) as e:
         print(f"  [ERROR] {card['id']}: {e}")
-        return {"id": card["id"], "status": "error", "error": str(e)}
+        # pokemontcg_id로 이미지 URL 조립 (예: svp-85 → .../svp/85.png)
+        parts = pokemontcg_id.rsplit("-", 1)
+        fallback_thumb = f"https://images.pokemontcg.io/{parts[0]}/{parts[1]}.png" if len(parts) == 2 else ""
+        return {"id": card["id"], "status": "error", "error": str(e), "thumbnail_url": fallback_thumb}
 
 
 def main():
