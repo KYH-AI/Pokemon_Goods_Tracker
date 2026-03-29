@@ -21,7 +21,7 @@ KST = timezone(timedelta(hours=9))
 RATE_PATH = ROOT / "config/exchange_rate.json"
 SOURCES_PATH = ROOT / "config/sources.json"
 
-FALLBACK_RATE = 1340.0
+FALLBACK_RATE = 1500.0
 
 
 def fetch_bok_rate(api_key: str) -> float:
