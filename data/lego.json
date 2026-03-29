@@ -1,25 +1,91 @@
 {
-  "updated_at": "2026-03-29T17:42:48.185151+09:00",
+  "updated_at": "2026-03-29T18:37:48.870152+09:00",
   "source_status": {
     "brickeconomy": "ok",
-    "lego_official": "ok"
+    "lego_official": "ok",
+    "bunjang": "missing"
   },
   "sets": [
     {
-      "id": "lego-pokemon-pikachu-77080",
-      "name_ko": "포켓몬 피카츄",
-      "set_number": "77080",
-      "bricklink_id": "77080-1",
-      "brickeconomy_url": "https://www.brickeconomy.com/set/77080-1/pokemon-pikachu",
-      "updated_at": "2026-03-29T17:42:48.185151+09:00"
+      "id": "lego-pokemon-eevee-72151",
+      "name_ko": "이브이",
+      "name_en": "Eevee",
+      "set_number": "72151",
+      "bricklink_id": "72151-1",
+      "official_price_krw": 79900,
+      "lego_official_url": "https://www.lego.com/ko-kr/product/eevee-72151",
+      "brickeconomy_url": "https://www.brickeconomy.com/set/72151-1/lego-pokemon-eevee",
+      "bunjang_search_keywords": [
+        "레고 이브이 72151",
+        "레고 포켓몬 이브이"
+      ],
+      "thumbnail_url": "https://images.brickset.com/sets/images/72151-1.jpg",
+      "retail_price_krw": 79900,
+      "updated_at": "2026-03-29T18:37:48.870152+09:00"
     },
     {
-      "id": "lego-pokemon-gengar-77081",
-      "name_ko": "포켓몬 개굴닌자 & 이브이",
-      "set_number": "77081",
-      "bricklink_id": "77081-1",
-      "brickeconomy_url": "https://www.brickeconomy.com/set/77081-1/pokemon-greninja-eevee",
-      "updated_at": "2026-03-29T17:42:48.185151+09:00"
+      "id": "lego-pokemon-pikachu-pokeball-72152",
+      "name_ko": "피카츄와 몬스터볼",
+      "name_en": "Pikachu and Poke Ball",
+      "set_number": "72152",
+      "bricklink_id": "72152-1",
+      "official_price_krw": 279900,
+      "lego_official_url": "https://www.lego.com/ko-kr/product/pikachu-and-poke-ball-72152",
+      "brickeconomy_url": "https://www.brickeconomy.com/set/72152-1/lego-pokemon-pikachu-and-poke-ball",
+      "bunjang_search_keywords": [
+        "레고 피카츄 몬스터볼 72152",
+        "레고 포켓몬 피카츄 72152"
+      ],
+      "thumbnail_url": "https://images.brickset.com/sets/images/72152-1.jpg",
+      "retail_price_krw": 279900,
+      "updated_at": "2026-03-29T18:37:48.870152+09:00"
+    },
+    {
+      "id": "lego-pokemon-starters-72153",
+      "name_ko": "이상해꽃, 리자몽, 거북왕",
+      "name_en": "Venusaur, Charizard and Blastoise",
+      "set_number": "72153",
+      "bricklink_id": "72153-1",
+      "official_price_krw": 949900,
+      "lego_official_url": "https://www.lego.com/ko-kr/product/venusaur-charizard-and-blastoise-72153",
+      "brickeconomy_url": "https://www.brickeconomy.com/set/72153-1/lego-pokemon-venusaur-charizard-and-blastoise",
+      "bunjang_search_keywords": [
+        "레고 이상해꽃 리자몽 거북왕 72153",
+        "레고 포켓몬 72153"
+      ],
+      "thumbnail_url": "https://images.brickset.com/sets/images/72153-1.jpg",
+      "retail_price_krw": 949900,
+      "updated_at": "2026-03-29T18:37:48.870152+09:00"
+    },
+    {
+      "id": "lego-pokemon-mini-center-40911",
+      "name_ko": "미니 포켓몬 센터",
+      "name_en": "Mini Pokemon Center",
+      "set_number": "40911",
+      "bricklink_id": "40911-1",
+      "lego_official_url": "https://www.lego.com/ko-kr/product/mini-pokemon-center-40911",
+      "brickeconomy_url": "https://www.brickeconomy.com/set/40911-1/lego-pokemon-mini-pokemon-center",
+      "bunjang_search_keywords": [
+        "레고 미니 포켓몬 센터 40911",
+        "레고 40911"
+      ],
+      "thumbnail_url": "https://images.brickset.com/sets/images/40911-1.jpg",
+      "updated_at": "2026-03-29T18:37:48.870152+09:00"
+    },
+    {
+      "id": "lego-pokemon-kanto-badges-40892",
+      "name_ko": "관동지방 배지 컬렉션",
+      "name_en": "Kanto Region Badge Collection",
+      "set_number": "40892",
+      "bricklink_id": "40892-1",
+      "lego_official_url": "https://www.lego.com/ko-kr/product/kanto-region-badge-collection-40892",
+      "brickeconomy_url": "https://www.brickeconomy.com/set/40892-1/lego-pokemon-kanto-region-badge-collection",
+      "bunjang_search_keywords": [
+        "레고 관동 배지 40892",
+        "레고 포켓몬 배지 40892"
+      ],
+      "thumbnail_url": "https://images.brickset.com/sets/images/40892-1.jpg",
+      "updated_at": "2026-03-29T18:37:48.870152+09:00"
     }
   ]
 }
