@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-29T22:05:49.219345+09:00",
+  "updated_at": "2026-03-30T11:05:49.338686+09:00",
   "source_status": {
     "tcgplayer": "ok",
     "pricecharting": "ok",
@@ -45,12 +45,12 @@
       "tcgplayer_market_usd": 822.77,
       "tcgplayer_market_krw": 1234155,
       "thumbnail_url": "https://images.pokemontcg.io/svp/85.png",
-      "last_seen_date": "2026-03-29",
+      "last_seen_date": "2026-03-30",
       "pc_raw_usd": 818.16,
       "pc_raw_krw": 1227240,
       "ebay_graded_sold": [],
       "avg_price_krw": 1230697,
-      "updated_at": "2026-03-29T22:05:49.219345+09:00"
+      "updated_at": "2026-03-30T11:05:49.338686+09:00"
     },
     {
       "id": "sv3pt5-charizard-ex-sar",
@@ -82,12 +82,12 @@
       "tcgplayer_market_usd": 403.18,
       "tcgplayer_market_krw": 604770,
       "thumbnail_url": "https://images.pokemontcg.io/sv3pt5/199.png",
-      "last_seen_date": "2026-03-29",
-      "pc_raw_usd": 413.0,
-      "pc_raw_krw": 619500,
+      "last_seen_date": "2026-03-30",
+      "pc_raw_usd": 400.0,
+      "pc_raw_krw": 600000,
       "ebay_graded_sold": [],
-      "avg_price_krw": 612135,
-      "updated_at": "2026-03-29T22:05:49.219345+09:00"
+      "avg_price_krw": 602385,
+      "updated_at": "2026-03-30T11:05:49.338686+09:00"
     },
     {
       "id": "sv4pt5-pidgeot-ex-sur",
@@ -111,12 +111,12 @@
       "tcgplayer_market_usd": 3.08,
       "tcgplayer_market_krw": 4620,
       "thumbnail_url": "https://images.pokemontcg.io/sv4pt5/221.png",
-      "last_seen_date": "2026-03-29",
+      "last_seen_date": "2026-03-30",
       "pc_raw_usd": 3.73,
       "pc_raw_krw": 5595,
       "ebay_graded_sold": [],
       "avg_price_krw": 5107,
-      "updated_at": "2026-03-29T22:05:49.219345+09:00"
+      "updated_at": "2026-03-30T11:05:49.338686+09:00"
     }
   ]
 }
