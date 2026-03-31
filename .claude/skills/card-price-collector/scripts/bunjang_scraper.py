@@ -96,6 +96,18 @@ def scrape_bunjang(keyword: str) -> list:
         return []
 
 
+def load_prev_pc_prices() -> dict:
+    """이전 실행의 data/cards.json에서 카드별 PriceCharting KRW 가격 로드."""
+    cards_json = ROOT / "data/cards.json"
+    if not cards_json.exists():
+        return {}
+    try:
+        data = json.loads(cards_json.read_text(encoding="utf-8"))
+        return {c["id"]: c.get("pc_raw_krw") for c in data.get("cards", []) if c.get("pc_raw_krw")}
+    except Exception:
+        return {}
+
+
 def main():
     watchlist = json.loads((ROOT / "config/watchlist.json").read_text(encoding="utf-8"))
     sources = json.loads((ROOT / "config/sources.json").read_text(encoding="utf-8"))
@@ -104,6 +116,7 @@ def main():
         print("[bunjang] 비활성화, 스킵")
         sys.exit(0)
 
+    pc_prices = load_prev_pc_prices()
     cards_kr = [c for c in watchlist["cards"] if "kr" in c.get("editions", [])]
     results = []
 
@@ -118,7 +131,16 @@ def main():
 
         if all_listings:
             prices = sorted(li["price_krw"] for li in all_listings)
-            # IQR 기반 이상치 제거
+
+            # 1단계: PriceCharting 기준 최저가 필터 (pc_raw_krw × 20%)
+            pc_krw = pc_prices.get(card["id"])
+            if pc_krw:
+                min_price = int(pc_krw * 0.20)
+                prices = [p for p in prices if p >= min_price]
+                if prices:
+                    print(f"  [{card['id']}] 최저가 필터 {min_price:,}원 적용 → {len(prices)}건 남음")
+
+            # 2단계: IQR 기반 이상치 제거
             if len(prices) >= 4:
                 q1 = prices[len(prices) // 4]
                 q3 = prices[(len(prices) * 3) // 4]
@@ -126,14 +148,18 @@ def main():
                 filtered = [p for p in prices if q1 - 1.5 * iqr <= p <= q3 + 1.5 * iqr]
                 if filtered:
                     prices = filtered
-            results.append({
-                "id": card["id"],
-                "active_count": len(prices),
-                "price_range_krw": [min(prices), max(prices)],
-                "avg_krw": int(sum(prices) / len(prices)),
-                "listings": all_listings[:5],
-                "status": "ok",
-            })
+
+            if prices:
+                results.append({
+                    "id": card["id"],
+                    "active_count": len(prices),
+                    "price_range_krw": [min(prices), max(prices)],
+                    "avg_krw": int(sum(prices) / len(prices)),
+                    "listings": all_listings[:5],
+                    "status": "ok",
+                })
+            else:
+                results.append({"id": card["id"], "active_count": 0, "status": "no_results"})
         else:
             results.append({"id": card["id"], "active_count": 0, "status": "no_results"})
 
