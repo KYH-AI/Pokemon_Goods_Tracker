@@ -1,8 +1,7 @@
 {
-  "updated_at": "2026-03-30T22:44:09.249456+09:00",
+  "updated_at": "2026-03-31T11:01:51.012147+09:00",
   "source_status": {
     "tcgplayer": "ok",
-    "tcgplayer_sv-pikachu-vangogh": "error",
     "pricecharting": "ok",
     "ebay": "ok",
     "naver_cafe": "missing",
@@ -43,13 +42,15 @@
         "반고흐피카츄 카드",
         "피카츄 반고흐"
       ],
+      "tcgplayer_market_usd": 822.77,
+      "tcgplayer_market_krw": 1234155,
       "thumbnail_url": "https://images.pokemontcg.io/svp/85.png",
+      "last_seen_date": "2026-03-31",
       "pc_raw_usd": 818.16,
       "pc_raw_krw": 1227240,
-      "last_seen_date": "2026-03-30",
       "ebay_graded_sold": [],
-      "avg_price_krw": 1227240,
-      "updated_at": "2026-03-30T22:44:09.249456+09:00"
+      "avg_price_krw": 1230697,
+      "updated_at": "2026-03-31T11:01:51.012147+09:00"
     },
     {
       "id": "sv3pt5-charizard-ex-sar",
@@ -81,12 +82,12 @@
       "tcgplayer_market_usd": 400.36,
       "tcgplayer_market_krw": 600540,
       "thumbnail_url": "https://images.pokemontcg.io/sv3pt5/199.png",
-      "last_seen_date": "2026-03-30",
+      "last_seen_date": "2026-03-31",
       "pc_raw_usd": 400.0,
       "pc_raw_krw": 600000,
       "ebay_graded_sold": [],
       "avg_price_krw": 600270,
-      "updated_at": "2026-03-30T22:44:09.249456+09:00"
+      "updated_at": "2026-03-31T11:01:51.012147+09:00"
     },
     {
       "id": "sv4pt5-pidgeot-ex-sur",
@@ -110,12 +111,12 @@
       "tcgplayer_market_usd": 3.16,
       "tcgplayer_market_krw": 4740,
       "thumbnail_url": "https://images.pokemontcg.io/sv4pt5/221.png",
-      "last_seen_date": "2026-03-30",
+      "last_seen_date": "2026-03-31",
       "pc_raw_usd": 3.73,
       "pc_raw_krw": 5595,
       "ebay_graded_sold": [],
       "avg_price_krw": 5167,
-      "updated_at": "2026-03-30T22:44:09.249456+09:00"
+      "updated_at": "2026-03-31T11:01:51.012147+09:00"
     }
   ]
 }
