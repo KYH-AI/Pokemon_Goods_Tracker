@@ -117,10 +117,18 @@ def main():
                 break
 
         if all_listings:
-            prices = [li["price_krw"] for li in all_listings]
+            prices = sorted(li["price_krw"] for li in all_listings)
+            # IQR 기반 이상치 제거
+            if len(prices) >= 4:
+                q1 = prices[len(prices) // 4]
+                q3 = prices[(len(prices) * 3) // 4]
+                iqr = q3 - q1
+                filtered = [p for p in prices if q1 - 1.5 * iqr <= p <= q3 + 1.5 * iqr]
+                if filtered:
+                    prices = filtered
             results.append({
                 "id": card["id"],
-                "active_count": len(all_listings),
+                "active_count": len(prices),
                 "price_range_krw": [min(prices), max(prices)],
                 "avg_krw": int(sum(prices) / len(prices)),
                 "listings": all_listings[:5],
