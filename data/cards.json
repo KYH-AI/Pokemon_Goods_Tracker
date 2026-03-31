@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-01T02:41:29.812802+09:00",
+  "updated_at": "2026-04-01T02:50:57.007723+09:00",
   "source_status": {
     "tcgplayer": "ok",
     "pricecharting": "ok",
@@ -53,9 +53,9 @@
           "company": "PSA",
           "grade": "10",
           "recent_sold_count": 5,
-          "avg_sold_usd": 2619.88,
+          "avg_sold_usd": 2759.88,
           "last_sold_date": "",
-          "avg_sold_krw": 3929820
+          "avg_sold_krw": 4139820
         },
         {
           "company": "PSA",
@@ -144,7 +144,7 @@
         }
       ],
       "avg_price_krw": 1175365,
-      "updated_at": "2026-04-01T02:41:29.812802+09:00"
+      "updated_at": "2026-04-01T02:50:57.007723+09:00"
     },
     {
       "id": "sv3pt5-charizard-ex-sar",
@@ -179,16 +179,16 @@
       "last_seen_date": "2026-04-01",
       "pc_raw_usd": 400.0,
       "pc_raw_krw": 600000,
-      "ebay_avg_sold_usd": 431.55,
+      "ebay_avg_sold_usd": 476.1,
       "ebay_recent_sold_count": 20,
       "ebay_graded_sold": [
         {
           "company": "PSA",
           "grade": "10",
           "recent_sold_count": 5,
-          "avg_sold_usd": 1034.94,
+          "avg_sold_usd": 1036.94,
           "last_sold_date": "",
-          "avg_sold_krw": 1552410
+          "avg_sold_krw": 1555410
         },
         {
           "company": "PSA",
@@ -277,7 +277,7 @@
         }
       ],
       "avg_price_krw": 490140,
-      "updated_at": "2026-04-01T02:41:29.812802+09:00"
+      "updated_at": "2026-04-01T02:50:57.007723+09:00"
     },
     {
       "id": "sv4pt5-pidgeot-ex-sur",
@@ -333,7 +333,7 @@
         }
       ],
       "avg_price_krw": 5190,
-      "updated_at": "2026-04-01T02:41:29.812802+09:00"
+      "updated_at": "2026-04-01T02:50:57.007723+09:00"
     }
   ]
 }
