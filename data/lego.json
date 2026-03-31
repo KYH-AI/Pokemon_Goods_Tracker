@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-01T02:10:04.204926+09:00",
+  "updated_at": "2026-04-01T02:23:38.818208+09:00",
   "source_status": {
     "brickeconomy": "missing",
     "brickset": "ok",
@@ -53,7 +53,7 @@
         }
       ],
       "premium_pct": -11.7,
-      "updated_at": "2026-04-01T02:10:04.204926+09:00"
+      "updated_at": "2026-04-01T02:23:38.818208+09:00"
     },
     {
       "id": "lego-pokemon-pikachu-pokeball-72152",
@@ -87,7 +87,7 @@
         }
       ],
       "premium_pct": -10.7,
-      "updated_at": "2026-04-01T02:10:04.204926+09:00"
+      "updated_at": "2026-04-01T02:23:38.818208+09:00"
     },
     {
       "id": "lego-pokemon-starters-72153",
@@ -135,7 +135,7 @@
         }
       ],
       "premium_pct": 2.7,
-      "updated_at": "2026-04-01T02:10:04.204926+09:00"
+      "updated_at": "2026-04-01T02:23:38.818208+09:00"
     },
     {
       "id": "lego-pokemon-mini-center-40911",
@@ -180,7 +180,7 @@
           "updated_at": 1774877020
         }
       ],
-      "updated_at": "2026-04-01T02:10:04.204926+09:00"
+      "updated_at": "2026-04-01T02:23:38.818208+09:00"
     },
     {
       "id": "lego-pokemon-kanto-badges-40892",
@@ -225,7 +225,7 @@
           "updated_at": 1774888239
         }
       ],
-      "updated_at": "2026-04-01T02:10:04.204926+09:00"
+      "updated_at": "2026-04-01T02:23:38.818208+09:00"
     }
   ]
 }
