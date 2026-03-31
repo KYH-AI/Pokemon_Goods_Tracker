@@ -362,7 +362,9 @@ function renderLegoItem(set) {
     ? `<div class="lego-price-row">
         <span class="lego-price-label">프리미엄</span>
         <span class="lego-price-value ${set.premium_pct >= 0 ? 'premium-positive' : 'premium-negative'}">
-          ${set.premium_pct >= 0 ? '+' : ''}${set.premium_pct}%
+          ${set.premium_pct >= 0
+            ? `+${set.premium_pct}% (정가보다 비쌈)`
+            : `${set.premium_pct}% (정가보다 저렴)`}
         </span>
       </div>`
     : '';

@@ -1,8 +1,7 @@
 {
-  "updated_at": "2026-04-01T02:23:38.817596+09:00",
+  "updated_at": "2026-04-01T02:41:29.812802+09:00",
   "source_status": {
     "tcgplayer": "ok",
-    "tcgplayer_sv4pt5-pidgeot-ex-sur": "error",
     "pricecharting": "ok",
     "ebay": "ok",
     "naver_cafe": "missing",
@@ -47,7 +46,7 @@
       "last_seen_date": "2026-04-01",
       "pc_raw_usd": 818.16,
       "pc_raw_krw": 1227240,
-      "ebay_avg_sold_usd": 1176.79,
+      "ebay_avg_sold_usd": 1177.49,
       "ebay_recent_sold_count": 20,
       "ebay_graded_sold": [
         {
@@ -145,7 +144,7 @@
         }
       ],
       "avg_price_krw": 1175365,
-      "updated_at": "2026-04-01T02:23:38.817596+09:00"
+      "updated_at": "2026-04-01T02:41:29.812802+09:00"
     },
     {
       "id": "sv3pt5-charizard-ex-sar",
@@ -278,7 +277,7 @@
         }
       ],
       "avg_price_krw": 490140,
-      "updated_at": "2026-04-01T02:23:38.817596+09:00"
+      "updated_at": "2026-04-01T02:41:29.812802+09:00"
     },
     {
       "id": "sv4pt5-pidgeot-ex-sur",
@@ -299,10 +298,12 @@
       ],
       "naver_cafe_keywords": [],
       "domestic_search_keywords": [],
+      "tcgplayer_market_usd": 3.19,
+      "tcgplayer_market_krw": 4785,
       "thumbnail_url": "https://images.pokemontcg.io/sv4pt5/221.png",
+      "last_seen_date": "2026-04-01",
       "pc_raw_usd": 3.73,
       "pc_raw_krw": 5595,
-      "last_seen_date": "2026-04-01",
       "ebay_avg_sold_usd": 4.43,
       "ebay_recent_sold_count": 19,
       "ebay_graded_sold": [
@@ -331,8 +332,8 @@
           "avg_sold_krw": 39840
         }
       ],
-      "avg_price_krw": 5595,
-      "updated_at": "2026-04-01T02:23:38.817596+09:00"
+      "avg_price_krw": 5190,
+      "updated_at": "2026-04-01T02:41:29.812802+09:00"
     }
   ]
 }
