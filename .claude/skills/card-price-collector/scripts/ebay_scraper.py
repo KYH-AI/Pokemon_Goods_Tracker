@@ -64,7 +64,6 @@ def search_items(token: str, keyword: str, max_results: int = 20) -> list:
             params={
                 "q": keyword,
                 "filter": "buyingOptions:{FIXED_PRICE},conditions:{USED|VERY_GOOD|LIKE_NEW|NEW}",
-                "sort": "price",
                 "limit": max_results,
                 "category_ids": "183454",  # Trading Cards
             },
@@ -142,9 +141,16 @@ def collect_card(card: dict, ebay_config: dict, token: str) -> dict:
                     break
 
     if result["sold_listings"]:
-        prices = [li["sold_price_usd"] for li in result["sold_listings"]]
-        result["avg_sold_usd"] = round(sum(prices) / len(prices), 2)
-        result["recent_sold_count"] = len(prices)
+        prices = sorted(li["sold_price_usd"] for li in result["sold_listings"])
+        # IQR 기반 이상치 제거
+        if len(prices) >= 4:
+            q1 = prices[len(prices) // 4]
+            q3 = prices[(len(prices) * 3) // 4]
+            iqr = q3 - q1
+            prices = [p for p in prices if q1 - 1.5 * iqr <= p <= q3 + 1.5 * iqr]
+        if prices:
+            result["avg_sold_usd"] = round(sum(prices) / len(prices), 2)
+            result["recent_sold_count"] = len(prices)
 
     return result
 
