@@ -1,12 +1,14 @@
 {
-  "updated_at": "2026-03-29T18:31:55.678897+09:00",
+  "updated_at": "2026-04-01T01:50:34.251651+09:00",
   "source_status": {
     "tcgplayer": "ok",
     "pricecharting": "ok",
-    "ebay": "missing",
+    "ebay": "ok",
     "naver_cafe": "missing",
-    "bunjang": "missing",
-    "daangn": "missing"
+    "bunjang": "ok",
+    "daangn": "ok",
+    "daangn_sv-pikachu-vangogh": "no_results",
+    "daangn_sv3pt5-charizard-ex-sar": "no_results"
   },
   "cards": [
     {
@@ -41,11 +43,100 @@
       "tcgplayer_market_usd": 822.77,
       "tcgplayer_market_krw": 1234155,
       "thumbnail_url": "https://images.pokemontcg.io/svp/85.png",
-      "last_seen_date": "2026-03-29",
-      "pc_raw_usd": 804.21,
-      "pc_raw_krw": 1206315,
-      "avg_price_krw": 1220235,
-      "updated_at": "2026-03-29T18:31:55.678897+09:00"
+      "last_seen_date": "2026-04-01",
+      "pc_raw_usd": 818.16,
+      "pc_raw_krw": 1227240,
+      "ebay_avg_sold_usd": 6.87,
+      "ebay_recent_sold_count": 20,
+      "ebay_graded_sold": [
+        {
+          "company": "PSA",
+          "grade": "10",
+          "recent_sold_count": 5,
+          "avg_sold_usd": 613.43,
+          "last_sold_date": "",
+          "avg_sold_krw": 920144
+        },
+        {
+          "company": "PSA",
+          "grade": "9",
+          "recent_sold_count": 5,
+          "avg_sold_usd": 876.7,
+          "last_sold_date": "",
+          "avg_sold_krw": 1315050
+        },
+        {
+          "company": "PSA",
+          "grade": "8",
+          "recent_sold_count": 5,
+          "avg_sold_usd": 927.07,
+          "last_sold_date": "",
+          "avg_sold_krw": 1390605
+        },
+        {
+          "company": "BGS",
+          "grade": "10",
+          "recent_sold_count": 2,
+          "avg_sold_usd": 5874.41,
+          "last_sold_date": "",
+          "avg_sold_krw": 8811615
+        },
+        {
+          "company": "BGS",
+          "grade": "9.5",
+          "recent_sold_count": 3,
+          "avg_sold_usd": 2090.27,
+          "last_sold_date": "",
+          "avg_sold_krw": 3135405
+        },
+        {
+          "company": "BGS",
+          "grade": "9",
+          "recent_sold_count": 1,
+          "avg_sold_usd": 2576.82,
+          "last_sold_date": "",
+          "avg_sold_krw": 3865230
+        }
+      ],
+      "bunjang_avg_krw": 1211005,
+      "bunjang_price_range_krw": [
+        30000,
+        5300000
+      ],
+      "domestic_listings": [
+        {
+          "pid": "398433287",
+          "title": "[구매] 반고흐 피카츄 미개봉 구매",
+          "price_krw": 1000000,
+          "thumbnail": "",
+          "updated_at": 1774913301,
+          "status_note": "판매 희망가 (수수료 6%+ 별도)",
+          "edition": "kr",
+          "source": "bunjang"
+        },
+        {
+          "pid": "385517688",
+          "title": "포켓몬 반고흐 피카츄 인형",
+          "price_krw": 159000,
+          "thumbnail": "",
+          "updated_at": 1774913551,
+          "status_note": "판매 희망가 (수수료 6%+ 별도)",
+          "edition": "kr",
+          "source": "bunjang"
+        },
+        {
+          "pid": "395450671",
+          "title": "반고흐 피카츄 매입합니다~",
+          "price_krw": 2000000,
+          "thumbnail": "",
+          "updated_at": 1773626671,
+          "status_note": "판매 희망가 (수수료 6%+ 별도)",
+          "edition": "kr",
+          "source": "bunjang"
+        }
+      ],
+      "avg_price_krw": 1224133,
+      "updated_at": "2026-04-01T01:50:34.251651+09:00"
     },
     {
       "id": "sv3pt5-charizard-ex-sar",
@@ -74,14 +165,87 @@
         "리자몽ex SAR",
         "리자몽 151"
       ],
-      "tcgplayer_market_usd": 403.18,
-      "tcgplayer_market_krw": 604770,
+      "tcgplayer_market_usd": 402.1,
+      "tcgplayer_market_krw": 603150,
       "thumbnail_url": "https://images.pokemontcg.io/sv3pt5/199.png",
-      "last_seen_date": "2026-03-29",
-      "pc_raw_usd": 413.0,
-      "pc_raw_krw": 619500,
-      "avg_price_krw": 612135,
-      "updated_at": "2026-03-29T18:31:55.678897+09:00"
+      "last_seen_date": "2026-04-01",
+      "pc_raw_usd": 400.0,
+      "pc_raw_krw": 600000,
+      "ebay_avg_sold_usd": 221.41,
+      "ebay_recent_sold_count": 20,
+      "ebay_graded_sold": [
+        {
+          "company": "PSA",
+          "grade": "10",
+          "recent_sold_count": 5,
+          "avg_sold_usd": 629.99,
+          "last_sold_date": "",
+          "avg_sold_krw": 944985
+        },
+        {
+          "company": "PSA",
+          "grade": "9",
+          "recent_sold_count": 5,
+          "avg_sold_usd": 673.71,
+          "last_sold_date": "",
+          "avg_sold_krw": 1010565
+        },
+        {
+          "company": "BGS",
+          "grade": "10",
+          "recent_sold_count": 1,
+          "avg_sold_usd": 499.0,
+          "last_sold_date": "",
+          "avg_sold_krw": 748500
+        },
+        {
+          "company": "BGS",
+          "grade": "9.5",
+          "recent_sold_count": 1,
+          "avg_sold_usd": 699.99,
+          "last_sold_date": "",
+          "avg_sold_krw": 1049985
+        }
+      ],
+      "bunjang_avg_krw": 288175,
+      "bunjang_price_range_krw": [
+        5000,
+        1600000
+      ],
+      "domestic_listings": [
+        {
+          "pid": "398587761",
+          "title": "포켓몬 카드 리자몽 EX SAR brg9등급카드",
+          "price_krw": 355000,
+          "thumbnail": "",
+          "updated_at": 1774965495,
+          "status_note": "판매 희망가 (수수료 6%+ 별도)",
+          "edition": "kr",
+          "source": "bunjang"
+        },
+        {
+          "pid": "398585690",
+          "title": "[포켓몬카드] 일판 샤이니트레져 리자몽 ex SAR PSA8",
+          "price_krw": 300000,
+          "thumbnail": "",
+          "updated_at": 1774964938,
+          "status_note": "판매 희망가 (수수료 6%+ 별도)",
+          "edition": "kr",
+          "source": "bunjang"
+        },
+        {
+          "pid": "398535738",
+          "title": "포켓몬 일판 메가리자몽X ex SAR 제작카드",
+          "price_krw": 5000,
+          "thumbnail": "",
+          "updated_at": 1774951073,
+          "status_note": "판매 희망가 (수수료 6%+ 별도)",
+          "edition": "kr",
+          "source": "bunjang"
+        }
+      ],
+      "avg_price_krw": 497108,
+      "updated_at": "2026-04-01T01:50:34.251651+09:00"
     },
     {
       "id": "sv4pt5-pidgeot-ex-sur",
@@ -102,14 +266,17 @@
       ],
       "naver_cafe_keywords": [],
       "domestic_search_keywords": [],
-      "tcgplayer_market_usd": 3.08,
-      "tcgplayer_market_krw": 4620,
+      "tcgplayer_market_usd": 3.19,
+      "tcgplayer_market_krw": 4785,
       "thumbnail_url": "https://images.pokemontcg.io/sv4pt5/221.png",
-      "last_seen_date": "2026-03-29",
+      "last_seen_date": "2026-04-01",
       "pc_raw_usd": 3.73,
       "pc_raw_krw": 5595,
-      "avg_price_krw": 5107,
-      "updated_at": "2026-03-29T18:31:55.678897+09:00"
+      "ebay_avg_sold_usd": 4.19,
+      "ebay_recent_sold_count": 1,
+      "ebay_graded_sold": [],
+      "avg_price_krw": 5190,
+      "updated_at": "2026-04-01T01:50:34.251651+09:00"
     }
   ]
 }

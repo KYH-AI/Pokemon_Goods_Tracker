@@ -1,7 +1,8 @@
 {
-  "updated_at": "2026-04-01T01:31:47.887240+09:00",
+  "updated_at": "2026-04-01T01:50:34.252150+09:00",
   "source_status": {
-    "brickeconomy": "ok",
+    "brickeconomy": "missing",
+    "brickset": "ok",
     "lego_official": "ok",
     "bunjang": "ok"
   },
@@ -20,6 +21,9 @@
         "레고 포켓몬 이브이"
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/72151-1.jpg",
+      "retired": false,
+      "year": 2026,
+      "pieces": 587,
       "retail_price_krw": 79900,
       "bunjang_avg_krw": 70580,
       "bunjang_min_krw": 55000,
@@ -48,7 +52,8 @@
           "updated_at": 1774193787
         }
       ],
-      "updated_at": "2026-04-01T01:31:47.887240+09:00"
+      "premium_pct": -11.7,
+      "updated_at": "2026-04-01T01:50:34.252150+09:00"
     },
     {
       "id": "lego-pokemon-pikachu-pokeball-72152",
@@ -64,6 +69,9 @@
         "레고 포켓몬 피카츄 72152"
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/72152-1.jpg",
+      "retired": false,
+      "year": 2026,
+      "pieces": 2050,
       "retail_price_krw": 279900,
       "bunjang_avg_krw": 250000,
       "bunjang_min_krw": 250000,
@@ -78,7 +86,8 @@
           "updated_at": 1773811272
         }
       ],
-      "updated_at": "2026-04-01T01:31:47.887240+09:00"
+      "premium_pct": -10.7,
+      "updated_at": "2026-04-01T01:50:34.252150+09:00"
     },
     {
       "id": "lego-pokemon-starters-72153",
@@ -94,6 +103,9 @@
         "레고 포켓몬 72153"
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/72153-1.jpg",
+      "retired": false,
+      "year": 2026,
+      "pieces": 6838,
       "retail_price_krw": 949900,
       "bunjang_avg_krw": 975376,
       "bunjang_min_krw": 730000,
@@ -122,7 +134,8 @@
           "updated_at": 1774944196
         }
       ],
-      "updated_at": "2026-04-01T01:31:47.887240+09:00"
+      "premium_pct": 2.7,
+      "updated_at": "2026-04-01T01:50:34.252150+09:00"
     },
     {
       "id": "lego-pokemon-mini-center-40911",
@@ -137,6 +150,9 @@
         "레고 40911"
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/40911-1.jpg",
+      "retired": false,
+      "year": 2026,
+      "pieces": 233,
       "bunjang_avg_krw": 160525,
       "bunjang_min_krw": 50000,
       "bunjang_max_krw": 200000,
@@ -164,7 +180,7 @@
           "updated_at": 1774877020
         }
       ],
-      "updated_at": "2026-04-01T01:31:47.887240+09:00"
+      "updated_at": "2026-04-01T01:50:34.252150+09:00"
     },
     {
       "id": "lego-pokemon-kanto-badges-40892",
@@ -179,6 +195,9 @@
         "레고 포켓몬 배지 40892"
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/40892-1.jpg",
+      "retired": false,
+      "year": 2026,
+      "pieces": 312,
       "bunjang_avg_krw": 244490,
       "bunjang_min_krw": 180000,
       "bunjang_max_krw": 350000,
@@ -206,7 +225,7 @@
           "updated_at": 1774888239
         }
       ],
-      "updated_at": "2026-04-01T01:31:47.887240+09:00"
+      "updated_at": "2026-04-01T01:50:34.252150+09:00"
     }
   ]
 }
