@@ -1,7 +1,8 @@
 {
-  "updated_at": "2026-04-01T02:10:04.204330+09:00",
+  "updated_at": "2026-04-01T02:23:38.817596+09:00",
   "source_status": {
     "tcgplayer": "ok",
+    "tcgplayer_sv4pt5-pidgeot-ex-sur": "error",
     "pricecharting": "ok",
     "ebay": "ok",
     "naver_cafe": "missing",
@@ -46,7 +47,7 @@
       "last_seen_date": "2026-04-01",
       "pc_raw_usd": 818.16,
       "pc_raw_krw": 1227240,
-      "ebay_avg_sold_usd": 1174.45,
+      "ebay_avg_sold_usd": 1176.79,
       "ebay_recent_sold_count": 20,
       "ebay_graded_sold": [
         {
@@ -106,10 +107,10 @@
           "avg_sold_krw": 2175000
         }
       ],
-      "bunjang_avg_krw": 671771,
+      "bunjang_avg_krw": 1064700,
       "bunjang_price_range_krw": [
-        30000,
-        2000000
+        250000,
+        3000000
       ],
       "domestic_listings": [
         {
@@ -143,8 +144,8 @@
           "source": "bunjang"
         }
       ],
-      "avg_price_krw": 1044388,
-      "updated_at": "2026-04-01T02:10:04.204330+09:00"
+      "avg_price_krw": 1175365,
+      "updated_at": "2026-04-01T02:23:38.817596+09:00"
     },
     {
       "id": "sv3pt5-charizard-ex-sar",
@@ -179,7 +180,7 @@
       "last_seen_date": "2026-04-01",
       "pc_raw_usd": 400.0,
       "pc_raw_krw": 600000,
-      "ebay_avg_sold_usd": 441.35,
+      "ebay_avg_sold_usd": 431.55,
       "ebay_recent_sold_count": 20,
       "ebay_graded_sold": [
         {
@@ -239,9 +240,9 @@
           "avg_sold_krw": 464625
         }
       ],
-      "bunjang_avg_krw": 181305,
+      "bunjang_avg_krw": 267272,
       "bunjang_price_range_krw": [
-        5000,
+        160000,
         355000
       ],
       "domestic_listings": [
@@ -276,8 +277,8 @@
           "source": "bunjang"
         }
       ],
-      "avg_price_krw": 461485,
-      "updated_at": "2026-04-01T02:10:04.204330+09:00"
+      "avg_price_krw": 490140,
+      "updated_at": "2026-04-01T02:23:38.817596+09:00"
     },
     {
       "id": "sv4pt5-pidgeot-ex-sur",
@@ -298,12 +299,10 @@
       ],
       "naver_cafe_keywords": [],
       "domestic_search_keywords": [],
-      "tcgplayer_market_usd": 3.19,
-      "tcgplayer_market_krw": 4785,
       "thumbnail_url": "https://images.pokemontcg.io/sv4pt5/221.png",
-      "last_seen_date": "2026-04-01",
       "pc_raw_usd": 3.73,
       "pc_raw_krw": 5595,
+      "last_seen_date": "2026-04-01",
       "ebay_avg_sold_usd": 4.43,
       "ebay_recent_sold_count": 19,
       "ebay_graded_sold": [
@@ -332,8 +331,8 @@
           "avg_sold_krw": 39840
         }
       ],
-      "avg_price_krw": 5190,
-      "updated_at": "2026-04-01T02:10:04.204330+09:00"
+      "avg_price_krw": 5595,
+      "updated_at": "2026-04-01T02:23:38.817596+09:00"
     }
   ]
 }
