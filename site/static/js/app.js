@@ -360,11 +360,11 @@ function renderLegoItem(set) {
 
   const premiumHtml = set.premium_pct != null
     ? `<div class="lego-price-row">
-        <span class="lego-price-label">정가 대비</span>
+        <span class="lego-price-label">프리미엄</span>
         <span class="lego-price-value ${set.premium_pct >= 0 ? 'premium-positive' : 'premium-negative'}">
           ${set.premium_pct >= 0
-            ? `정가보다 ${set.premium_pct}% 비쌈`
-            : `정가보다 ${Math.abs(set.premium_pct)}% 저렴`}
+            ? `+${set.premium_pct}% (정가보다 비쌈)`
+            : `${set.premium_pct}% (정가보다 저렴)`}
         </span>
       </div>`
     : '';
