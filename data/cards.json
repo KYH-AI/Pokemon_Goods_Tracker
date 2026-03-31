@@ -1,7 +1,9 @@
 {
-  "updated_at": "2026-03-31T11:01:51.012147+09:00",
+  "updated_at": "2026-04-01T01:22:11.262559+09:00",
   "source_status": {
     "tcgplayer": "ok",
+    "tcgplayer_sv3pt5-charizard-ex-sar": "error",
+    "tcgplayer_sv4pt5-pidgeot-ex-sur": "error",
     "pricecharting": "ok",
     "ebay": "ok",
     "naver_cafe": "missing",
@@ -45,12 +47,12 @@
       "tcgplayer_market_usd": 822.77,
       "tcgplayer_market_krw": 1234155,
       "thumbnail_url": "https://images.pokemontcg.io/svp/85.png",
-      "last_seen_date": "2026-03-31",
+      "last_seen_date": "2026-04-01",
       "pc_raw_usd": 818.16,
       "pc_raw_krw": 1227240,
       "ebay_graded_sold": [],
       "avg_price_krw": 1230697,
-      "updated_at": "2026-03-31T11:01:51.012147+09:00"
+      "updated_at": "2026-04-01T01:22:11.262559+09:00"
     },
     {
       "id": "sv3pt5-charizard-ex-sar",
@@ -79,15 +81,13 @@
         "리자몽ex SAR",
         "리자몽 151"
       ],
-      "tcgplayer_market_usd": 400.36,
-      "tcgplayer_market_krw": 600540,
       "thumbnail_url": "https://images.pokemontcg.io/sv3pt5/199.png",
-      "last_seen_date": "2026-03-31",
       "pc_raw_usd": 400.0,
       "pc_raw_krw": 600000,
+      "last_seen_date": "2026-04-01",
       "ebay_graded_sold": [],
-      "avg_price_krw": 600270,
-      "updated_at": "2026-03-31T11:01:51.012147+09:00"
+      "avg_price_krw": 600000,
+      "updated_at": "2026-04-01T01:22:11.262559+09:00"
     },
     {
       "id": "sv4pt5-pidgeot-ex-sur",
@@ -108,15 +108,13 @@
       ],
       "naver_cafe_keywords": [],
       "domestic_search_keywords": [],
-      "tcgplayer_market_usd": 3.16,
-      "tcgplayer_market_krw": 4740,
       "thumbnail_url": "https://images.pokemontcg.io/sv4pt5/221.png",
-      "last_seen_date": "2026-03-31",
       "pc_raw_usd": 3.73,
       "pc_raw_krw": 5595,
+      "last_seen_date": "2026-04-01",
       "ebay_graded_sold": [],
-      "avg_price_krw": 5167,
-      "updated_at": "2026-03-31T11:01:51.012147+09:00"
+      "avg_price_krw": 5595,
+      "updated_at": "2026-04-01T01:22:11.262559+09:00"
     }
   ]
 }
