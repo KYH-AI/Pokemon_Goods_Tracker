@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-01T01:59:42.931861+09:00",
+  "updated_at": "2026-04-01T02:10:04.204330+09:00",
   "source_status": {
     "tcgplayer": "ok",
     "pricecharting": "ok",
@@ -46,16 +46,16 @@
       "last_seen_date": "2026-04-01",
       "pc_raw_usd": 818.16,
       "pc_raw_krw": 1227240,
-      "ebay_avg_sold_usd": 1112.24,
+      "ebay_avg_sold_usd": 1174.45,
       "ebay_recent_sold_count": 20,
       "ebay_graded_sold": [
         {
           "company": "PSA",
           "grade": "10",
           "recent_sold_count": 5,
-          "avg_sold_usd": 2759.88,
+          "avg_sold_usd": 2619.88,
           "last_sold_date": "",
-          "avg_sold_krw": 4139820
+          "avg_sold_krw": 3929820
         },
         {
           "company": "PSA",
@@ -106,10 +106,10 @@
           "avg_sold_krw": 2175000
         }
       ],
-      "bunjang_avg_krw": 1211005,
+      "bunjang_avg_krw": 671771,
       "bunjang_price_range_krw": [
         30000,
-        5300000
+        2000000
       ],
       "domestic_listings": [
         {
@@ -143,8 +143,8 @@
           "source": "bunjang"
         }
       ],
-      "avg_price_krw": 1224133,
-      "updated_at": "2026-04-01T01:59:42.931861+09:00"
+      "avg_price_krw": 1044388,
+      "updated_at": "2026-04-01T02:10:04.204330+09:00"
     },
     {
       "id": "sv3pt5-charizard-ex-sar",
@@ -239,10 +239,10 @@
           "avg_sold_krw": 464625
         }
       ],
-      "bunjang_avg_krw": 288175,
+      "bunjang_avg_krw": 181305,
       "bunjang_price_range_krw": [
         5000,
-        1600000
+        355000
       ],
       "domestic_listings": [
         {
@@ -276,8 +276,8 @@
           "source": "bunjang"
         }
       ],
-      "avg_price_krw": 497108,
-      "updated_at": "2026-04-01T01:59:42.931861+09:00"
+      "avg_price_krw": 461485,
+      "updated_at": "2026-04-01T02:10:04.204330+09:00"
     },
     {
       "id": "sv4pt5-pidgeot-ex-sur",
@@ -333,7 +333,7 @@
         }
       ],
       "avg_price_krw": 5190,
-      "updated_at": "2026-04-01T01:59:42.931861+09:00"
+      "updated_at": "2026-04-01T02:10:04.204330+09:00"
     }
   ]
 }
