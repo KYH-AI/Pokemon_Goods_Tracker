@@ -182,7 +182,7 @@ def merge_lego() -> dict:
             sid = entry.get("id", "")
             if sid in lego_index and entry.get("status") == "ok":
                 target = lego_index[sid]
-                for k in ("retired", "year", "pieces"):
+                for k in ("retired", "year", "pieces", "launch_date"):
                     if k in entry and k not in target:
                         target[k] = entry[k]
     else:

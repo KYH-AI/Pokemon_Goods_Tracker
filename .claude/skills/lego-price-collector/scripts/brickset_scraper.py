@@ -90,14 +90,28 @@ def main():
             "status": "ok",
             "retired": retired,
         }
-        # 출시연도, 피스 수는 있으면 추가 (watchlist에 없는 정보)
+        # 출시연도, 피스 수
         if set_data.get("year"):
             result["year"] = set_data["year"]
         if set_data.get("pieces"):
             result["pieces"] = set_data["pieces"]
 
+        # 출시일: LEGOCom.KR 우선, 없으면 상위 필드
+        launch_date = None
+        lego_com = set_data.get("LEGOCom", {})
+        if isinstance(lego_com, dict):
+            for region in ("KR", "US", "GB"):
+                region_data = lego_com.get(region, {})
+                if isinstance(region_data, dict) and region_data.get("dateFirstAvailable"):
+                    launch_date = region_data["dateFirstAvailable"][:10]  # YYYY-MM-DD
+                    break
+        if not launch_date and set_data.get("dateFirstAvailable"):
+            launch_date = set_data["dateFirstAvailable"][:10]
+        if launch_date:
+            result["launch_date"] = launch_date
+
         status_str = "단종" if retired else "판매중"
-        print(f"    {status_str} | 출시연도: {result.get('year', '?')} | 피스: {result.get('pieces', '?')}")
+        print(f"    {status_str} | 출시연도: {result.get('year', '?')} | 피스: {result.get('pieces', '?')} | 출시일: {result.get('launch_date', '?')}")
         results.append(result)
 
     output = {

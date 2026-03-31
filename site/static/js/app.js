@@ -386,7 +386,7 @@ function renderLegoItem(set) {
       <div class="lego-body">
         <div class="card-badges" style="margin-bottom:6px">${retiredHtml}</div>
         <div class="lego-name">${escHtml(set.name_ko || set.id)}</div>
-        <div class="lego-set-number">세트번호 ${escHtml(set.set_number || '')}</div>
+        <div class="lego-set-number">세트번호 ${escHtml(set.set_number || '')}${set.launch_date ? ` · 출시 ${escHtml(set.launch_date)}` : set.year ? ` · ${set.year}년` : ''}</div>
         ${set.retail_price_krw ? `<div class="lego-price-row"><span class="lego-price-label">정가</span><span class="lego-price-value">${fmt(set.retail_price_krw)}</span></div>` : ''}
         ${set.used_krw ? `<div class="lego-price-row"><span class="lego-price-label">중고 시세</span><span class="lego-price-value">${fmt(set.used_krw)}</span></div>` : ''}
         ${set.new_krw ? `<div class="lego-price-row"><span class="lego-price-label">새 상품 시세</span><span class="lego-price-value">${fmt(set.new_krw)}</span></div>` : ''}
