@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-01T01:50:34.252150+09:00",
+  "updated_at": "2026-04-01T01:59:42.932544+09:00",
   "source_status": {
     "brickeconomy": "missing",
     "brickset": "ok",
@@ -53,7 +53,7 @@
         }
       ],
       "premium_pct": -11.7,
-      "updated_at": "2026-04-01T01:50:34.252150+09:00"
+      "updated_at": "2026-04-01T01:59:42.932544+09:00"
     },
     {
       "id": "lego-pokemon-pikachu-pokeball-72152",
@@ -87,7 +87,7 @@
         }
       ],
       "premium_pct": -10.7,
-      "updated_at": "2026-04-01T01:50:34.252150+09:00"
+      "updated_at": "2026-04-01T01:59:42.932544+09:00"
     },
     {
       "id": "lego-pokemon-starters-72153",
@@ -107,10 +107,10 @@
       "year": 2026,
       "pieces": 6838,
       "retail_price_krw": 949900,
-      "bunjang_avg_krw": 975376,
+      "bunjang_avg_krw": 985825,
       "bunjang_min_krw": 730000,
       "bunjang_max_krw": 1750000,
-      "bunjang_count": 13,
+      "bunjang_count": 12,
       "bunjang_listings": [
         {
           "pid": "394588888",
@@ -134,8 +134,8 @@
           "updated_at": 1774944196
         }
       ],
-      "premium_pct": 2.7,
-      "updated_at": "2026-04-01T01:50:34.252150+09:00"
+      "premium_pct": 3.8,
+      "updated_at": "2026-04-01T01:59:42.932544+09:00"
     },
     {
       "id": "lego-pokemon-mini-center-40911",
@@ -180,7 +180,7 @@
           "updated_at": 1774877020
         }
       ],
-      "updated_at": "2026-04-01T01:50:34.252150+09:00"
+      "updated_at": "2026-04-01T01:59:42.932544+09:00"
     },
     {
       "id": "lego-pokemon-kanto-badges-40892",
@@ -225,7 +225,7 @@
           "updated_at": 1774888239
         }
       ],
-      "updated_at": "2026-04-01T01:50:34.252150+09:00"
+      "updated_at": "2026-04-01T01:59:42.932544+09:00"
     }
   ]
 }
