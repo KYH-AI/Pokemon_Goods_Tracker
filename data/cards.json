@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-01T01:50:34.251651+09:00",
+  "updated_at": "2026-04-01T01:59:42.931861+09:00",
   "source_status": {
     "tcgplayer": "ok",
     "pricecharting": "ok",
@@ -46,56 +46,64 @@
       "last_seen_date": "2026-04-01",
       "pc_raw_usd": 818.16,
       "pc_raw_krw": 1227240,
-      "ebay_avg_sold_usd": 6.87,
+      "ebay_avg_sold_usd": 1112.24,
       "ebay_recent_sold_count": 20,
       "ebay_graded_sold": [
         {
           "company": "PSA",
           "grade": "10",
           "recent_sold_count": 5,
-          "avg_sold_usd": 613.43,
+          "avg_sold_usd": 2759.88,
           "last_sold_date": "",
-          "avg_sold_krw": 920144
+          "avg_sold_krw": 4139820
         },
         {
           "company": "PSA",
           "grade": "9",
           "recent_sold_count": 5,
-          "avg_sold_usd": 876.7,
+          "avg_sold_usd": 978.24,
           "last_sold_date": "",
-          "avg_sold_krw": 1315050
+          "avg_sold_krw": 1467360
         },
         {
           "company": "PSA",
           "grade": "8",
           "recent_sold_count": 5,
-          "avg_sold_usd": 927.07,
+          "avg_sold_usd": 1041.36,
           "last_sold_date": "",
-          "avg_sold_krw": 1390605
+          "avg_sold_krw": 1562039
         },
         {
           "company": "BGS",
           "grade": "10",
-          "recent_sold_count": 2,
-          "avg_sold_usd": 5874.41,
+          "recent_sold_count": 5,
+          "avg_sold_usd": 3432.16,
           "last_sold_date": "",
-          "avg_sold_krw": 8811615
+          "avg_sold_krw": 5148240
         },
         {
           "company": "BGS",
           "grade": "9.5",
-          "recent_sold_count": 3,
-          "avg_sold_usd": 2090.27,
+          "recent_sold_count": 4,
+          "avg_sold_usd": 1570.7,
           "last_sold_date": "",
-          "avg_sold_krw": 3135405
+          "avg_sold_krw": 2356050
         },
         {
           "company": "BGS",
           "grade": "9",
-          "recent_sold_count": 1,
-          "avg_sold_usd": 2576.82,
+          "recent_sold_count": 5,
+          "avg_sold_usd": 1332.67,
           "last_sold_date": "",
-          "avg_sold_krw": 3865230
+          "avg_sold_krw": 1999005
+        },
+        {
+          "company": "BGS",
+          "grade": "8.5",
+          "recent_sold_count": 2,
+          "avg_sold_usd": 1450.0,
+          "last_sold_date": "",
+          "avg_sold_krw": 2175000
         }
       ],
       "bunjang_avg_krw": 1211005,
@@ -136,7 +144,7 @@
         }
       ],
       "avg_price_krw": 1224133,
-      "updated_at": "2026-04-01T01:50:34.251651+09:00"
+      "updated_at": "2026-04-01T01:59:42.931861+09:00"
     },
     {
       "id": "sv3pt5-charizard-ex-sar",
@@ -171,40 +179,64 @@
       "last_seen_date": "2026-04-01",
       "pc_raw_usd": 400.0,
       "pc_raw_krw": 600000,
-      "ebay_avg_sold_usd": 221.41,
+      "ebay_avg_sold_usd": 441.35,
       "ebay_recent_sold_count": 20,
       "ebay_graded_sold": [
         {
           "company": "PSA",
           "grade": "10",
           "recent_sold_count": 5,
-          "avg_sold_usd": 629.99,
+          "avg_sold_usd": 1034.94,
           "last_sold_date": "",
-          "avg_sold_krw": 944985
+          "avg_sold_krw": 1552410
         },
         {
           "company": "PSA",
           "grade": "9",
           "recent_sold_count": 5,
-          "avg_sold_usd": 673.71,
+          "avg_sold_usd": 439.99,
           "last_sold_date": "",
-          "avg_sold_krw": 1010565
+          "avg_sold_krw": 659985
+        },
+        {
+          "company": "PSA",
+          "grade": "8",
+          "recent_sold_count": 4,
+          "avg_sold_usd": 507.49,
+          "last_sold_date": "",
+          "avg_sold_krw": 761235
         },
         {
           "company": "BGS",
           "grade": "10",
-          "recent_sold_count": 1,
-          "avg_sold_usd": 499.0,
+          "recent_sold_count": 4,
+          "avg_sold_usd": 394.5,
           "last_sold_date": "",
-          "avg_sold_krw": 748500
+          "avg_sold_krw": 591750
         },
         {
           "company": "BGS",
           "grade": "9.5",
-          "recent_sold_count": 1,
-          "avg_sold_usd": 699.99,
+          "recent_sold_count": 4,
+          "avg_sold_usd": 893.25,
           "last_sold_date": "",
-          "avg_sold_krw": 1049985
+          "avg_sold_krw": 1339875
+        },
+        {
+          "company": "BGS",
+          "grade": "9",
+          "recent_sold_count": 2,
+          "avg_sold_usd": 537.0,
+          "last_sold_date": "",
+          "avg_sold_krw": 805500
+        },
+        {
+          "company": "BGS",
+          "grade": "8.5",
+          "recent_sold_count": 4,
+          "avg_sold_usd": 309.75,
+          "last_sold_date": "",
+          "avg_sold_krw": 464625
         }
       ],
       "bunjang_avg_krw": 288175,
@@ -245,7 +277,7 @@
         }
       ],
       "avg_price_krw": 497108,
-      "updated_at": "2026-04-01T01:50:34.251651+09:00"
+      "updated_at": "2026-04-01T01:59:42.931861+09:00"
     },
     {
       "id": "sv4pt5-pidgeot-ex-sur",
@@ -272,11 +304,36 @@
       "last_seen_date": "2026-04-01",
       "pc_raw_usd": 3.73,
       "pc_raw_krw": 5595,
-      "ebay_avg_sold_usd": 4.19,
-      "ebay_recent_sold_count": 1,
-      "ebay_graded_sold": [],
+      "ebay_avg_sold_usd": 4.43,
+      "ebay_recent_sold_count": 19,
+      "ebay_graded_sold": [
+        {
+          "company": "PSA",
+          "grade": "10",
+          "recent_sold_count": 3,
+          "avg_sold_usd": 85.38,
+          "last_sold_date": "",
+          "avg_sold_krw": 128070
+        },
+        {
+          "company": "PSA",
+          "grade": "9",
+          "recent_sold_count": 4,
+          "avg_sold_usd": 26.56,
+          "last_sold_date": "",
+          "avg_sold_krw": 39840
+        },
+        {
+          "company": "PSA",
+          "grade": "8",
+          "recent_sold_count": 4,
+          "avg_sold_usd": 26.56,
+          "last_sold_date": "",
+          "avg_sold_krw": 39840
+        }
+      ],
       "avg_price_krw": 5190,
-      "updated_at": "2026-04-01T01:50:34.251651+09:00"
+      "updated_at": "2026-04-01T01:59:42.931861+09:00"
     }
   ]
 }
