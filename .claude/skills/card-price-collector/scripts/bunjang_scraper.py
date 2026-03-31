@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""번개장터 모바일 웹에서 국내판 카드 매물 가격 수집."""
+"""번개장터 JSON API로 국내판 카드 매물 가격 수집."""
 import json
 import sys
 import time
@@ -9,20 +9,19 @@ from pathlib import Path
 
 try:
     import requests
-    from bs4 import BeautifulSoup
 except ImportError:
-    print("필요 패키지: pip install requests beautifulsoup4")
+    print("필요 패키지: pip install requests")
     sys.exit(1)
 
 ROOT = Path(__file__).parent.parent.parent.parent.parent
 KST = timezone(timedelta(hours=9))
 BLOCK_LOG = ROOT / "logs/block_tracker.json"
 
-MOBILE_UAS = [
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
-    "Mozilla/5.0 (Linux; Android 13; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.210 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 12; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36",
-]
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                  "Chrome/124.0.0.0 Safari/537.36",
+    "Accept-Language": "ko-KR,ko;q=0.9",
+}
 
 
 def log_block(source: str) -> int:
@@ -59,48 +58,37 @@ def log_block(source: str) -> int:
 
 
 def scrape_bunjang(keyword: str) -> list:
-    url = "https://m.bunjang.co.kr/search/products"
-    params = {"q": keyword, "order": "recent"}
-    headers = {
-        "User-Agent": random.choice(MOBILE_UAS),
-        "Accept-Language": "ko-KR,ko;q=0.9",
-        "Referer": "https://m.bunjang.co.kr",
-    }
-    delay = random.uniform(3, 5)
-    time.sleep(delay)
+    time.sleep(1 + random.uniform(0, 1))
 
     try:
-        resp = requests.get(url, params=params, headers=headers, timeout=15)
+        url = f"https://api.bunjang.co.kr/api/1/find_v2.json?q={requests.utils.quote(keyword)}&n=20&page=0"
+        resp = requests.get(url, headers=HEADERS, timeout=10)
 
         if resp.status_code in (403, 429):
             print(f"  [BLOCKED] 번개장터: HTTP {resp.status_code}")
             log_block("bunjang")
             return []
 
-        if "captcha" in resp.text.lower() or resp.text.strip() == "":
-            print("  [BLOCKED] 번개장터: CAPTCHA 또는 빈 응답")
-            log_block("bunjang")
+        if resp.status_code != 200:
             return []
 
-        soup = BeautifulSoup(resp.text, "html.parser")
         items = []
-        for product in soup.select(".product-item, [class*='product']")[:15]:
-            name_el = product.select_one("[class*='name'], [class*='title']")
-            price_el = product.select_one("[class*='price']")
-            if not name_el or not price_el:
-                continue
-            price_text = price_el.get_text(strip=True).replace(",", "").replace("원", "").strip()
+        for item in resp.json().get("list", []):
+            price_str = item.get("price", "0")
             try:
-                price = int(float(price_text))
-                if price <= 0:
-                    continue
-                items.append({
-                    "title": name_el.get_text(strip=True),
-                    "price_krw": price,
-                    "status_note": "판매 희망가 (수수료 6%+ 별도)",
-                })
-            except ValueError:
+                price = int(price_str)
+            except (ValueError, TypeError):
                 continue
+            if price <= 0:
+                continue
+            items.append({
+                "pid": item.get("pid", ""),
+                "title": item.get("name", ""),
+                "price_krw": price,
+                "thumbnail": item.get("image", ""),
+                "updated_at": item.get("update_time", ""),
+                "status_note": "판매 희망가 (수수료 6%+ 별도)",
+            })
         return items
 
     except requests.RequestException as e:

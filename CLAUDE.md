@@ -96,7 +96,8 @@
 
 ## 8. 금지 사항
 
-- 유료 API 무단 사용 (eBay Browse API, 한국은행 ECOS 외 유료 API 추가 불가)
+- 유료 API 무단 사용 (eBay Browse API 외 유료 API 추가 불가)
+- 환율: 1,500 KRW/USD 고정값 사용 (한국은행 ECOS API 미사용) — `exchange_rate.json`의 `expires_at: 2099` 유지, BOK_API_KEY 불필요
 - 차단 감지 후 강제 재시도
 - API 키 소스 코드 하드코딩 → 반드시 환경변수 사용
 - SNS 크롤링 (인스타그램, X/트위터) — 포켓몬코리아 공식 웹사이트만 허용

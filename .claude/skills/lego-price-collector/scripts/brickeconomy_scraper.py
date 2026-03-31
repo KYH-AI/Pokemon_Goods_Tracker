@@ -1,230 +1,158 @@
 #!/usr/bin/env python3
-"""BrickEconomy에서 레고 중고 시세, 프리미엄%, 재고 상태 수집."""
+"""BrickEconomy API v1로 레고 중고/새상품 시세, 프리미엄율, 단종 여부 수집."""
 import json
+import os
 import sys
 import time
 import random
-import re
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 try:
     import requests
-    from bs4 import BeautifulSoup
 except ImportError:
-    print("필요 패키지: pip install requests beautifulsoup4")
+    print("필요 패키지: pip install requests")
     sys.exit(1)
 
 ROOT = Path(__file__).parent.parent.parent.parent.parent
 KST = timezone(timedelta(hours=9))
-
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                  "Chrome/124.0.0.0 Safari/537.36",
-    "Accept-Language": "en-US,en;q=0.9",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Encoding": "gzip, deflate, br",
-    "Connection": "keep-alive",
-}
+API_BASE = "https://www.brickeconomy.com/api/v1"
 
 
-def load_exchange_rate() -> float:
-    rate_path = ROOT / "config/exchange_rate.json"
-    if rate_path.exists():
-        data = json.loads(rate_path.read_text(encoding="utf-8"))
-        return float(data.get("rate", 1340.0))
-    return 1340.0
-
-
-def parse_price_usd(text: str):
-    if not text:
-        return None
-    clean = text.strip().replace(",", "")
-    match = re.search(r"\$\s*([\d]+\.?\d*)", clean)
-    if match:
-        try:
-            return round(float(match.group(1)), 2)
-        except ValueError:
-            return None
+def get_field(data: dict, *keys):
+    """여러 키 이름 중 첫 번째로 존재하는 값 반환 (API 필드명 변경 대응)."""
+    for key in keys:
+        if key in data:
+            return data[key]
     return None
 
 
-def parse_percent(text: str):
-    if not text:
-        return None
-    match = re.search(r"([+-]?[\d.]+)%", text)
-    if match:
-        try:
-            return round(float(match.group(1)), 1)
-        except ValueError:
-            return None
-    return None
-
-
-def extract_prices_from_soup(soup: BeautifulSoup) -> dict:
-    """다중 전략으로 가격 추출 — BrickEconomy HTML 구조 변경에 대응."""
-    result = {}
-
-    # 전략 1: 공식 가격 통계 테이블 (ASP.NET 구조)
-    for table in soup.select("table"):
-        for row in table.select("tr"):
-            cells = row.select("td, th")
-            if len(cells) < 2:
-                continue
-            label = cells[0].get_text(strip=True).lower()
-            value_text = cells[1].get_text(strip=True)
-            price = parse_price_usd(value_text)
-            if not price:
-                continue
-            if any(k in label for k in ("new", "retail", "msrp")):
-                result.setdefault("new_usd", price)
-            elif any(k in label for k in ("used", "secondary", "market")):
-                result.setdefault("used_usd", price)
-
-    # 전략 2: CSS 클래스 기반 (구버전/신버전 혼합)
-    selector_map = {
-        "new_usd": [
-            ".value-new", ".price-new", "[class*='value-new']",
-            "[class*='price-new']", "#value-new",
-        ],
-        "used_usd": [
-            ".value-used", ".price-used", "[class*='value-used']",
-            "[class*='price-used']", "#value-used",
-        ],
+def fetch_set(set_number: str, api_key: str) -> dict:
+    """BrickEconomy API에서 세트 데이터 조회."""
+    bricklink_id = f"{set_number}-1"
+    url = f"{API_BASE}/sets/{bricklink_id}"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/json",
     }
-    for field, selectors in selector_map.items():
-        if field in result:
-            continue
-        for sel in selectors:
-            el = soup.select_one(sel)
-            if el:
-                price = parse_price_usd(el.get_text())
-                if price:
-                    result[field] = price
-                    break
+    try:
+        resp = requests.get(url, headers=headers, timeout=15)
+        if resp.status_code in (401, 403):
+            print(f"  [AUTH ERROR] BrickEconomy API 키 오류: HTTP {resp.status_code}")
+            return {"status": "auth_error"}
+        if resp.status_code == 404:
+            print(f"  [WARN] BrickEconomy: {set_number} 세트 없음")
+            return {"status": "not_found"}
+        if resp.status_code != 200:
+            print(f"  [ERROR] BrickEconomy HTTP {resp.status_code} (set {set_number})")
+            return {"status": f"http_{resp.status_code}"}
+        return resp.json()
+    except requests.RequestException as e:
+        print(f"  [ERROR] BrickEconomy {set_number}: {e}")
+        return {"status": "error"}
 
-    # 전략 3: 페이지 전체에서 "New:" / "Used:" 패턴 텍스트 파싱
-    if "new_usd" not in result or "used_usd" not in result:
-        page_text = soup.get_text(" ", strip=True)
-        for pattern, field in [
-            (r"New[:\s]+\$([\d,]+\.?\d*)", "new_usd"),
-            (r"Used[:\s]+\$([\d,]+\.?\d*)", "used_usd"),
-            (r"Retail[:\s]+\$([\d,]+\.?\d*)", "new_usd"),
-        ]:
-            if field in result:
-                continue
-            m = re.search(pattern, page_text, re.IGNORECASE)
-            if m:
-                try:
-                    result[field] = round(float(m.group(1).replace(",", "")), 2)
-                except ValueError:
-                    pass
+
+def parse_set_data(raw: dict, lego_item: dict, rate: float) -> dict:
+    """API 응답에서 필요 필드 추출."""
+    result = {
+        "id": lego_item["id"],
+        "set_number": lego_item.get("set_number", ""),
+        "status": "ok",
+    }
+
+    # 새상품가 — API 필드명 후보 순서대로 탐색
+    new_usd = get_field(raw, "new_price", "newPrice", "value_new", "retail_value", "retailValue")
+    if new_usd is not None:
+        try:
+            result["new_usd"] = round(float(new_usd), 2)
+            result["new_krw"] = int(float(new_usd) * rate)
+        except (ValueError, TypeError):
+            pass
+
+    # 중고가
+    used_usd = get_field(raw, "used_price", "usedPrice", "value_used", "secondary_value", "secondaryValue")
+    if used_usd is not None:
+        try:
+            result["used_usd"] = round(float(used_usd), 2)
+            result["used_krw"] = int(float(used_usd) * rate)
+        except (ValueError, TypeError):
+            pass
+
+    # 프리미엄율
+    premium = get_field(raw, "premium_pct", "premium", "appreciation", "growth", "price_premium", "pricePremium")
+    if premium is not None:
+        try:
+            result["premium_pct"] = round(float(premium), 1)
+        except (ValueError, TypeError):
+            pass
+
+    # 단종 여부
+    retired = get_field(raw, "retired", "is_retired", "isRetired")
+    if retired is not None:
+        result["retired"] = bool(retired)
+    else:
+        # availability 필드에서 "Retired" 텍스트로 판단
+        availability = get_field(raw, "availability", "status")
+        if availability and "retired" in str(availability).lower():
+            result["retired"] = True
+
+    # 로그
+    parts = []
+    if "new_usd" in result:
+        parts.append(f"새상품 ${result['new_usd']}")
+    if "used_usd" in result:
+        parts.append(f"중고 ${result['used_usd']}")
+    if "premium_pct" in result:
+        sign = "+" if result["premium_pct"] >= 0 else ""
+        parts.append(f"프리미엄 {sign}{result['premium_pct']}%")
+    if "retired" in result:
+        parts.append("단종" if result["retired"] else "판매중")
+    print(f"    {' | '.join(parts) if parts else '데이터 없음'}")
 
     return result
 
 
-def scrape_brickeconomy(lego_item: dict, rate: float) -> dict:
-    url = lego_item.get("brickeconomy_url", "")
-    if not url:
-        return {"id": lego_item["id"], "status": "no_url"}
-
-    time.sleep(3 + random.uniform(0, 2))
-
-    try:
-        resp = requests.get(url, headers=HEADERS, timeout=20)
-        if resp.status_code == 403:
-            print(f"  [BLOCKED] BrickEconomy {lego_item['id']}: HTTP 403")
-            return {"id": lego_item["id"], "status": "blocked"}
-        if resp.status_code != 200:
-            return {"id": lego_item["id"], "status": f"http_{resp.status_code}"}
-
-        soup = BeautifulSoup(resp.text, "html.parser")
-        result = {
-            "id": lego_item["id"],
-            "set_number": lego_item.get("set_number", ""),
-            "status": "ok",
-        }
-
-        # 가격 추출 (다중 전략)
-        prices = extract_prices_from_soup(soup)
-        if "new_usd" in prices:
-            result["new_usd"] = prices["new_usd"]
-            result["new_krw"] = int(prices["new_usd"] * rate)
-        if "used_usd" in prices:
-            result["used_usd"] = prices["used_usd"]
-            result["used_krw"] = int(prices["used_usd"] * rate)
-
-        # 프리미엄% — 다중 선택자
-        premium_selectors = [
-            "[class*='premium']", "[class*='price-premium']",
-            "[class*='growth']", "[class*='appreciation']",
-        ]
-        for sel in premium_selectors:
-            el = soup.select_one(sel)
-            if el:
-                pct = parse_percent(el.get_text())
-                if pct is not None:
-                    result["premium_pct"] = pct
-                    break
-
-        # 재고/단종 상태 — 다중 선택자
-        retired_selectors = [
-            "[class*='availability']", "[class*='retired']",
-            "[class*='status']", "[class*='discontinued']",
-        ]
-        for sel in retired_selectors:
-            el = soup.select_one(sel)
-            if el:
-                avail_text = el.get_text(strip=True).lower()
-                if "retired" in avail_text or "discontinued" in avail_text:
-                    result["retired"] = True
-                elif avail_text:
-                    result["retired"] = False
-                break
-
-        # 썸네일 — 다중 선택자
-        img_selectors = [
-            ".set-image img", ".product-image img",
-            "[class*='set-image'] img", "img[alt*='Pokemon']",
-            "img[alt*='LEGO']",
-        ]
-        for sel in img_selectors:
-            img = soup.select_one(sel)
-            if img:
-                src = img.get("src", "") or img.get("data-src", "")
-                if src:
-                    result["thumbnail_url"] = src
-                    break
-
-        if "new_usd" not in result and "used_usd" not in result:
-            print(f"  [WARN] {lego_item['id']}: 가격 추출 실패 (선택자 불일치 가능성)")
-
-        return result
-
-    except requests.RequestException as e:
-        print(f"  [ERROR] BrickEconomy {lego_item['id']}: {e}")
-        return {"id": lego_item["id"], "status": "error", "error": str(e)}
-
-
 def main():
-    watchlist = json.loads((ROOT / "config/watchlist.json").read_text(encoding="utf-8"))
-    sources = json.loads((ROOT / "config/sources.json").read_text(encoding="utf-8"))
+    api_key = os.environ.get("BRICKECONOMY_API_KEY", "")
+    if not api_key:
+        print("[brickeconomy] BRICKECONOMY_API_KEY 미설정, 스킵")
+        sys.exit(0)
 
-    if not sources["lego_sources"]["brickeconomy"].get("enabled", True):
+    sources = json.loads((ROOT / "config/sources.json").read_text(encoding="utf-8"))
+    if not sources.get("lego_sources", {}).get("brickeconomy", {}).get("enabled", True):
         print("[brickeconomy] 비활성화, 스킵")
         sys.exit(0)
 
-    rate = load_exchange_rate()
-    print(f"[brickeconomy] 환율: 1 USD = {rate} KRW")
+    rate_path = ROOT / "config/exchange_rate.json"
+    rate = float(json.loads(rate_path.read_text(encoding="utf-8")).get("rate", 1500.0)) if rate_path.exists() else 1500.0
 
+    watchlist = json.loads((ROOT / "config/watchlist.json").read_text(encoding="utf-8"))
     lego_items = watchlist.get("lego", [])
-    print(f"[brickeconomy] {len(lego_items)}개 세트 수집")
+    print(f"[brickeconomy] {len(lego_items)}개 세트 수집 (환율: {rate} KRW/USD)")
 
     results = []
+    auth_failed = False
+
     for item in lego_items:
+        if auth_failed:
+            results.append({"id": item["id"], "status": "skipped"})
+            continue
+
         print(f"  → {item['id']}")
-        result = scrape_brickeconomy(item, rate)
-        results.append(result)
+        time.sleep(1 + random.uniform(0, 0.5))
+
+        raw = fetch_set(item.get("set_number", ""), api_key)
+
+        if raw.get("status") == "auth_error":
+            auth_failed = True
+            results.append({"id": item["id"], "status": "auth_error"})
+            continue
+
+        if raw.get("status") in ("not_found", "error") or raw.get("status", "").startswith("http_"):
+            results.append({"id": item["id"], "status": raw.get("status", "error")})
+            continue
+
+        results.append(parse_set_data(raw, item, rate))
 
     output = {
         "scraped_at": datetime.now(KST).isoformat(),

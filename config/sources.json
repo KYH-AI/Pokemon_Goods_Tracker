@@ -46,9 +46,11 @@
   },
   "lego_sources": {
     "brickeconomy": {
-      "base_url": "https://www.brickeconomy.com",
-      "enabled": true,
-      "request_delay_sec": 3
+      "api_url": "https://www.brickeconomy.com/api/v1",
+      "api_key_env": "BRICKECONOMY_API_KEY",
+      "enabled": false,
+      "request_delay_sec": 1,
+      "note": "유료 Premium 구독 전용 API — 무료 플랜 없음. 활성화 시 BRICKECONOMY_API_KEY 필요. premium_pct는 번개장터/정가 fallback으로 대체됨"
     },
     "lego_official": {
       "base_url": "https://www.lego.com",
@@ -66,14 +68,40 @@
       "enabled": true,
       "request_delay_sec": 1,
       "note": "레고 중고 시세 수집"
+    },
+    "brickset": {
+      "api_url": "https://brickset.com/api/v3.asmx",
+      "api_key_env": "BRICKSET_API_KEY",
+      "enabled": true,
+      "request_delay_sec": 1,
+      "note": "단종 여부, 출시연도, 피스 수"
     }
   },
   "event_sources": {
     "pokemon_korea": {
-      "base_url": "https://www.pokemon.co.kr",
-      "events_url": "https://www.pokemon.co.kr/event/",
+      "base_url": "https://pokemonkorea.co.kr",
+      "events_url": "https://pokemonkorea.co.kr/news/event",
       "enabled": true,
       "request_delay_sec": 2
+    },
+    "pokemoncard": {
+      "base_url": "https://pokemoncard.co.kr",
+      "events_url": "https://pokemoncard.co.kr/card/category/event",
+      "enabled": true,
+      "request_delay_sec": 2
+    },
+    "naver_search": {
+      "api_url": "https://openapi.naver.com/v1/search",
+      "client_id_env": "NAVER_CLIENT_ID",
+      "client_secret_env": "NAVER_CLIENT_SECRET",
+      "enabled": true,
+      "keywords": [
+        "포켓몬 카드쇼 2026",
+        "포켓몬 팝업 2026",
+        "포켓몬 굿즈 이벤트 2026",
+        "포켓몬 프로모 카드 2026",
+        "포켓몬센터 이벤트 2026"
+      ]
     },
     "naver_cafe_events": {
       "target_cafes": [

@@ -388,6 +388,7 @@ function renderLegoItem(set) {
         ${set.retail_price_krw ? `<div class="lego-price-row"><span class="lego-price-label">정가</span><span class="lego-price-value">${fmt(set.retail_price_krw)}</span></div>` : ''}
         ${set.used_krw ? `<div class="lego-price-row"><span class="lego-price-label">중고 시세</span><span class="lego-price-value">${fmt(set.used_krw)}</span></div>` : ''}
         ${set.new_krw ? `<div class="lego-price-row"><span class="lego-price-label">새 상품 시세</span><span class="lego-price-value">${fmt(set.new_krw)}</span></div>` : ''}
+        ${set.bunjang_avg_krw ? `<div class="lego-price-row"><span class="lego-price-label">번개장터↗</span><span class="lego-price-value">${fmt(set.bunjang_avg_krw)}${set.bunjang_count ? ` <span style="font-size:0.75em;opacity:0.6">(${set.bunjang_count}건)</span>` : ''}</span></div>` : ''}
         ${premiumHtml}
         ${stockHtml}
       </div>

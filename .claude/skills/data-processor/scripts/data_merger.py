@@ -160,19 +160,33 @@ def merge_lego() -> dict:
     source_status = {}
     now_str = datetime.now(KST).isoformat()
 
-    # BrickEconomy
+    # BrickEconomy (403 차단 시 missing 처리)
     be_data = load_json_safe(raw_dir / "lego_brickeconomy.json")
-    if be_data:
+    if be_data and any(e.get("status") == "ok" for e in be_data.get("sets", [])):
         source_status["brickeconomy"] = "ok"
         for entry in be_data.get("sets", []):
             sid = entry.get("id", "")
-            if sid in lego_index:
+            if sid in lego_index and entry.get("status") == "ok":
                 target = lego_index[sid]
                 for k in ("used_usd", "used_krw", "new_usd", "new_krw", "premium_pct", "retired", "thumbnail_url"):
                     if k in entry:
                         target[k] = entry[k]
     else:
         source_status["brickeconomy"] = "missing"
+
+    # BrickSet (단종 여부, 출시연도, 피스 수)
+    bs_data = load_json_safe(raw_dir / "lego_brickset.json")
+    if bs_data:
+        source_status["brickset"] = "ok"
+        for entry in bs_data.get("sets", []):
+            sid = entry.get("id", "")
+            if sid in lego_index and entry.get("status") == "ok":
+                target = lego_index[sid]
+                for k in ("retired", "year", "pieces"):
+                    if k in entry and k not in target:
+                        target[k] = entry[k]
+    else:
+        source_status["brickset"] = "missing"
 
     # LEGO 공식
     lo_data = load_json_safe(raw_dir / "lego_official.json")
@@ -212,6 +226,13 @@ def merge_lego() -> dict:
 
     final_sets = []
     for sid, s in lego_index.items():
+        # premium_pct: BrickEconomy 없으면 번개장터 평균가 / 정가로 계산
+        if "premium_pct" not in s:
+            retail = s.get("retail_price_krw") or s.get("official_price_krw")
+            bunjang_avg = s.get("bunjang_avg_krw")
+            if retail and bunjang_avg and retail > 0:
+                s["premium_pct"] = round((bunjang_avg / retail - 1) * 100, 1)
+
         s["updated_at"] = now_str
         clean = {k: v for k, v in s.items() if v is not None}
         final_sets.append(clean)
@@ -235,7 +256,7 @@ def merge_events() -> dict:
         all_events = deduped.get("events", [])
     else:
         all_events = []
-        for fname in ("events_official.json", "events_community_classified.json", "events_community.json"):
+        for fname in ("events_official.json", "events_pokemoncard.json", "events_community_classified.json", "events_community.json"):
             data = load_json_safe(raw_dir / fname)
             if data:
                 all_events.extend(data.get("events", []))

@@ -45,7 +45,7 @@ def load_all_events() -> list:
     raw_dir = ROOT / "data/raw"
     all_events = []
 
-    for fname in ("events_official.json", "events_community.json", "events_community_classified.json"):
+    for fname in ("events_official.json", "events_pokemoncard.json", "events_community.json", "events_community_classified.json"):
         fpath = raw_dir / fname
         if fpath.exists():
             try:

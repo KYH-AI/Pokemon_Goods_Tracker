@@ -12,6 +12,8 @@
 
 ```bash
 python .claude/skills/event-collector/scripts/pokemon_korea_scraper.py || true
+python .claude/skills/event-collector/scripts/pokemoncard_scraper.py || true
+python .claude/skills/event-collector/scripts/naver_search_scraper.py || true
 python .claude/skills/event-collector/scripts/naver_cafe_scraper.py || true
 ```
 
