@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-04-01T01:22:11.262982+09:00",
+  "updated_at": "2026-04-01T01:31:47.887240+09:00",
   "source_status": {
     "brickeconomy": "ok",
     "lego_official": "ok",
-    "bunjang": "missing"
+    "bunjang": "ok"
   },
   "sets": [
     {
@@ -21,7 +21,34 @@
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/72151-1.jpg",
       "retail_price_krw": 79900,
-      "updated_at": "2026-04-01T01:22:11.262982+09:00"
+      "bunjang_avg_krw": 70580,
+      "bunjang_min_krw": 55000,
+      "bunjang_max_krw": 80000,
+      "bunjang_count": 5,
+      "bunjang_listings": [
+        {
+          "pid": "398345260",
+          "name": "레고 포켓몬 이브이 72151 새상품",
+          "price_krw": 80000,
+          "thumbnail": "",
+          "updated_at": 1774866668
+        },
+        {
+          "pid": "396703791",
+          "name": "레고 72151 포켓몬 이브이",
+          "price_krw": 70000,
+          "thumbnail": "",
+          "updated_at": 1774157965
+        },
+        {
+          "pid": "394138163",
+          "name": "레고 포켓몬 72151 이브이",
+          "price_krw": 73000,
+          "thumbnail": "",
+          "updated_at": 1774193787
+        }
+      ],
+      "updated_at": "2026-04-01T01:31:47.887240+09:00"
     },
     {
       "id": "lego-pokemon-pikachu-pokeball-72152",
@@ -38,7 +65,20 @@
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/72152-1.jpg",
       "retail_price_krw": 279900,
-      "updated_at": "2026-04-01T01:22:11.262982+09:00"
+      "bunjang_avg_krw": 250000,
+      "bunjang_min_krw": 250000,
+      "bunjang_max_krw": 250000,
+      "bunjang_count": 1,
+      "bunjang_listings": [
+        {
+          "pid": "395866794",
+          "name": "레고 72152 피카츄와몬스터볼 새상품",
+          "price_krw": 250000,
+          "thumbnail": "",
+          "updated_at": 1773811272
+        }
+      ],
+      "updated_at": "2026-04-01T01:31:47.887240+09:00"
     },
     {
       "id": "lego-pokemon-starters-72153",
@@ -55,7 +95,34 @@
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/72153-1.jpg",
       "retail_price_krw": 949900,
-      "updated_at": "2026-04-01T01:22:11.262982+09:00"
+      "bunjang_avg_krw": 975376,
+      "bunjang_min_krw": 730000,
+      "bunjang_max_krw": 1750000,
+      "bunjang_count": 13,
+      "bunjang_listings": [
+        {
+          "pid": "394588888",
+          "name": "레고 포켓몬 72153 이상해꽃, 리자몽, 거북왕",
+          "price_krw": 949900,
+          "thumbnail": "",
+          "updated_at": 1773955770
+        },
+        {
+          "pid": "392243137",
+          "name": "레고 포켓몬 72153 이상해꽃, 리자몽, 거북왕(플모 미포함)",
+          "price_krw": 910000,
+          "thumbnail": "",
+          "updated_at": 1772271279
+        },
+        {
+          "pid": "397583812",
+          "name": "레고 리자몽,이상해꽃,거북왕 72153(조립품)",
+          "price_krw": 730000,
+          "thumbnail": "",
+          "updated_at": 1774944196
+        }
+      ],
+      "updated_at": "2026-04-01T01:31:47.887240+09:00"
     },
     {
       "id": "lego-pokemon-mini-center-40911",
@@ -70,7 +137,34 @@
         "레고 40911"
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/40911-1.jpg",
-      "updated_at": "2026-04-01T01:22:11.262982+09:00"
+      "bunjang_avg_krw": 160525,
+      "bunjang_min_krw": 50000,
+      "bunjang_max_krw": 200000,
+      "bunjang_count": 20,
+      "bunjang_listings": [
+        {
+          "pid": "396343104",
+          "name": "레고 40911 미니 포켓몬 센터 미개봉 [소장용]",
+          "price_krw": 188000,
+          "thumbnail": "",
+          "updated_at": 1774006573
+        },
+        {
+          "pid": "392249102",
+          "name": "레고 40911 레고 미니포켓몬센터",
+          "price_krw": 170000,
+          "thumbnail": "",
+          "updated_at": 1772273033
+        },
+        {
+          "pid": "393002067",
+          "name": "레고 40911 포켓몬 미니 포켓몬 센터 MISB 미개봉 판매",
+          "price_krw": 170000,
+          "thumbnail": "",
+          "updated_at": 1774877020
+        }
+      ],
+      "updated_at": "2026-04-01T01:31:47.887240+09:00"
     },
     {
       "id": "lego-pokemon-kanto-badges-40892",
@@ -85,7 +179,34 @@
         "레고 포켓몬 배지 40892"
       ],
       "thumbnail_url": "https://images.brickset.com/sets/images/40892-1.jpg",
-      "updated_at": "2026-04-01T01:22:11.262982+09:00"
+      "bunjang_avg_krw": 244490,
+      "bunjang_min_krw": 180000,
+      "bunjang_max_krw": 350000,
+      "bunjang_count": 10,
+      "bunjang_listings": [
+        {
+          "pid": "396175626",
+          "name": "레고 포켓몬스터 관동지방 배지 컬렉션 40892",
+          "price_krw": 240000,
+          "thumbnail": "",
+          "updated_at": 1773931319
+        },
+        {
+          "pid": "396262745",
+          "name": "레고 포켓몬 삼대장 플모 관동 배지 판매합니다 레고 40892",
+          "price_krw": 240000,
+          "thumbnail": "",
+          "updated_at": 1774416295
+        },
+        {
+          "pid": "395571400",
+          "name": "포켓몬 레고 관동지방 (배지)뱃지(40892) 판매",
+          "price_krw": 240000,
+          "thumbnail": "",
+          "updated_at": 1774888239
+        }
+      ],
+      "updated_at": "2026-04-01T01:31:47.887240+09:00"
     }
   ]
 }
