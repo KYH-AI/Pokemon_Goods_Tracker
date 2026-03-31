@@ -55,20 +55,30 @@ jobs:
           python .claude/skills/card-price-collector/scripts/bunjang_scraper.py || true
           python .claude/skills/card-price-collector/scripts/daangn_scraper.py || true
         env:
-          EBAY_API_KEY: ${{ secrets.EBAY_API_KEY }}
+          EBAY_APP_ID: ${{ secrets.EBAY_APP_ID }}
+          EBAY_CERT_ID: ${{ secrets.EBAY_CERT_ID }}
 
       - name: '[Step 1] 레고 시세 수집'
         run: |
-          python .claude/skills/lego-price-collector/scripts/brickeconomy_scraper.py || true
           python .claude/skills/lego-price-collector/scripts/lego_official_scraper.py || true
+          python .claude/skills/lego-price-collector/scripts/lego_bunjang_scraper.py || true
+          python .claude/skills/lego-price-collector/scripts/brickset_scraper.py || true
+          python .claude/skills/lego-price-collector/scripts/brickeconomy_scraper.py || true
+        env:
+          BRICKSET_API_KEY: ${{ secrets.BRICKSET_API_KEY }}
+          BRICKECONOMY_API_KEY: ${{ secrets.BRICKECONOMY_API_KEY }}
         continue-on-error: true
 
       - name: '[Step 1] 이벤트 수집'
         run: |
           python .claude/skills/event-collector/scripts/pokemon_korea_scraper.py || true
+          python .claude/skills/event-collector/scripts/pokemoncard_scraper.py || true
+          python .claude/skills/event-collector/scripts/naver_search_scraper.py || true
           python .claude/skills/event-collector/scripts/naver_cafe_scraper.py || true
         env:
           GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
         continue-on-error: true
 
       # ========== Step 2a: LLM 보강 (조건부) ==========
